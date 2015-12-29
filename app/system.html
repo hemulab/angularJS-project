@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='system' ng-controller="systemCtrl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{system.title}}</title>
+	<link rel="stylesheet" type="text/css" href="Content/Css/common.css">
+	<link rel="stylesheet" type="text/css" href="Content/Css/system.css">
+	<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.min.js"></script>-->
+	<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular-route.min.js"></script>-->
+	<script type="text/javascript" src="Scripts/angular.min.js"></script>
+	<script type="text/javascript" src="Scripts/angular-route.min.js"></script>
+	<script type="text/javascript" src="Scripts/common.js"></script>
+</head>
+<body>
+	<div class="header">
+		<div ng-include="'header.html'"></div>
+		<div class="hd-tab">
+			<div class="system-course-active" ng-bind="nowCourse" ng-click="showCourseList()"><i class="icon arrow-down"></i></div>
+			<ul class="system-courseList left ng-hide" ng-click="changeNowCourse(event)" ng-show="listIsShown">
+				<li class="system-courseList-item" ng-repeat="i in courses">
+					初中{{i.course}}
+				</li>
+				<li class="system-courseList-item" ng-repeat="i in courses">
+					高中{{i.course}}
+				</li>
+			</ul>
+			<div class="hub-wrapper left">
+				<div class="btn-wrapper" ng-repeat="h in hubs">
+					<a href="#/{{h.id}}-hub" class="hub {{h.id}}">{{h.name}}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container" ng-view></div>
+</body>
+</html>

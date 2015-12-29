@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>index</title>
+	<link rel="stylesheet" type="text/css" href="Content/Css/common.css">
+	<link rel="stylesheet" type="text/css" href="Content/Css/system.css">
+	<script type="text/javascript" src="Scripts/angular.min.js"></script>
+	<script type="text/javascript" src="Scripts/angular-route.min.js"></script>
+</head>
+<body>
+
+<body ng-app="AngularStore">
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span10 offset1">
+            <h1 class="well">
+                Angular Store
+            </h1>
+            <div ng-view></div>   
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+var storeApp = angular.module('AngularStore', ['ngRoute'])                  //新版本的angular必须添加'ngRouter'，也需要引用ng-router.js
+    .config(['$routeProvider', function ($routeProvider){
+        $routeProvider
+            .when('/',{                                                     //此种情况，在ng-view处将会显示partials/store.html中的内容
+                templateUrl:'partials/store.html',
+                controller:storeController
+            })
+            .when('/store',{                                        //此种情况，在ng-view处将会显示partials/store.html中的内容，下面的根据路径显示不同内容
+                templateUrl:'partials/store.html',
+                controller:storeController
+            })
+            .when('/products/:productSku',{                               
+                templateUrl:'partials/product.html',
+                controller:storeController
+            })
+            .when('/cart',{
+                templateUrl:'partials/shoppingCart.html',
+                controller:storeController
+            })
+            .otherwise({
+                redirectTo:'/store'
+            });
+    }]);
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+html,body,.container{
+	height: 100%;
+}
+body{
+	position: relative;
+	margin: 0;
+	border: none;
+	font-family: "微软雅黑",sans-serif;
+}
+p{
+	margin: 0;
+	color: #666;
+	font-size: 14px;
+	line-height: 150%;
+	word-wrap: break-word;
+}
+a{
+	text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+.header{
+	position: fixed;
+	height: 66px;
+	width: 100%;
+	background-color: #32425c;
+}
+.header-bottom{
+	height: 2px;
+	background-color: #405373;
+	border-top: solid 1px #2c3b53;
+	border-bottom: solid 1px #2c3b53;
+	clear: both;
+}
+.container{
+	font-size: 12px;
+	color: #666;
+}
+.footer{
+	padding-top: 1px;
+	background-color: #fff;
+	border-top: solid 1px #eaeaea;
+	text-align: center;
+}
+.footer .wrapper{
+	padding: 10px;
+	height: 60px;
+	background-color: #f6f8f8;
+}
+.t{
+	padding: 0 6px;
+}
+
+.left{
+	float: left;
+}
+.right{
+	float: right;
+}
+.clearfix:after {
+	content: '.';
+	display: block;
+	height: 0;
+	visibility: hidden;
+	clear: both;
+}
+.clearfix{
+	*zoom: 1;
+}
+.hide{
+	display: none;
+}
+.close{
+	display: block;
+	float: right;
+	width: 21px;
+	height: 21px;
+	background: transparent url(../Images/close.png) no-repeat;
+	cursor: pointer;
+}
+
+.title{
+	font-size: 18px;
+}
+.title.big, .hd-indexLink{
+	font-size: 24px;
+	color: #fff;
+}
+
+.hd-title{
+	margin: 0 15px;
+	background: transparent url(../Images/logo.png) no-repeat 5px 19px;
+}
+.hd-indexLink{
+	padding-left: 40px;
+	line-height: 62px;
+}
+.hd-btn{
+	display: block;
+	height: 57px;
+	line-height: 52px;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+}
+.btn-wrapper{
+	float: inherit;
+	border-left: solid 1px #3e5171;
+	border-right: solid 1px #283449;
+}
+.hd-user{
+	font-size: 14px;
+}
+.hd-user .logOut{
+	float: right;
+	padding: 0 14px;
+	border-top: solid 5px #ce616e;
+}
+.hd-user .logOut:hover, .hd-user .logOut:focus{
+	background-color: #ce616e;
+}
+.hd-user .user-info{
+	float: right;
+	height: 62px;
+	line-height: 62px;
+	color: #a8d5ff;
+}
+.hd-user .user-info a{
+	color: #a8d5ff;
+}
+.hd-user .user-info .wrapper{
+	float: right;
+	padding-right: 10px;
+	border-right: solid 1px #283449;
+}
+.hd-user .user-info .userIcon{
+	display: inline-block;
+	width: 13px;
+	height: 12px;
+	margin-right: 6px;
+	background: transparent url(../Images/user-default.png) no-repeat;
+}
+
+.mask{
+	height: 100%;
+	width: 100%;
+	position:fixed;
+	top:0;
+	z-index:8;
+	background-color: #fff;
+	opacity:0.6;
+	-moz-opacity:0.6;
+	filter:alpha(opacity=60);
+}
+.dialog{
+	position: absolute;
+	background-color: #fff;
+	z-index:9;
+}

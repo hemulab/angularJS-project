@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>index</title>
+	<script type="text/javascript" src="Scripts/userAgent.js"></script>
+	<link rel="stylesheet" type="text/css" href="Content/Css/common.css">
+	<link rel="stylesheet" type="text/css" href="Content/Css/index.css">
+	<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.min.js"></script>-->
+	<script type="text/javascript" src="Scripts/angular.min.js"></script>
+</head>
+<body ng-app='index' ng-controller="indexCtrl">
+	<div class="header">
+		<div ng-include="'header.html'"></div>
+	</div>
+	<div class="container">
+		<div class="wall clearfix">
+			<div class="wall-pic-1 left"></div>
+			<div class="wall-pic-2 right"></div>
+		</div>
+		<div class="container-content clearfix">
+			<div class="left welcome">
+				<div class="wrapper">
+					<p class="title">欢迎使用</p>
+					<p class="title big">万方组卷系统</p>
+					<p>这是一款专门为中学师生订制开发的选题组卷的工具。定期的更新试题资源及系统功能，以保证与时俱进的把握近年的中高考的考频动向，成为广大师生练习与测试的在线组卷利器。
+					</p>
+				</div>
+			</div>
+			<div class="left count">
+				<p class="title">目前题库中题目数量有多少，质量如何？</p>
+				<p>目前内置20多万题目，覆盖初一到高三六个年级的所有升学考试学科，为保证试题质量，题库内录入的题目全部来源近年来各地的中高考的真题和名校名卷。万方组卷系统同时与国内多家名校的近千名一线教师正式签约建立长期合作关系，由他们精心的为试题提供分级解析。
+				</p>
+			</div>
+			<div class="left use">
+				<p class="title">您在这里可以做什么？</p>
+				<p>您可以对题库中的试题进行学科、学段、考试类型、难度、知识点等进行筛选，然后组成试卷；也可以对试卷的样式根据不同的应用场景进行调整；对组成的试卷可以存档、删除、修改并且提供Word格式的文件下载。
+				</p>
+			</div>
+			<a class="left start" id="start" ng-click='showDialog()'>
+				快来体验吧
+				<span class="arrow"></span>
+				<span class="triangle"></span>
+			</a>
+		</div>
+	</div>
+	<div ng-include="'footer.html'"></div>
+	<div ng-show="dialogIsShown" class="ng-hide">
+		<div class="mask" ng-click='hideDialog()'></div>
+		<div class="dialog chooseCourse">
+			<div class="dialog-title">首次登录请选择题库<div class="close" ng-click="hideDialog()"></div></div>
+			<div class="dialog-text">您可能是第一次访问本系统，需要您在下列题库中选择一个作为当前访问的题库，以便进行后续的选题组卷操作。</div>
+			<div class="dialog-content">
+				<div class="courseBank junior">
+					<p>初中题库</p>
+					<div class="courseBank-list clearfix">
+						<a href="#" ng-repeat="i in courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+					</div>
+				</div>
+				<div class="courseBank senior">
+					<p>高中题库</p>
+					<div class="courseBank-list clearfix">
+						<a href="#" ng-repeat="i in courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="Scripts/common.js"></script>
+</body>
+</html>
