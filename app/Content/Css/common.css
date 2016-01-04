@@ -10,7 +10,6 @@ body{
 p{
 	margin: 0;
 	color: #666;
-	font-size: 14px;
 	line-height: 150%;
 	word-wrap: break-word;
 }
@@ -25,6 +24,7 @@ ul{
 	height: 66px;
 	width: 100%;
 	background-color: #32425c;
+	z-index: 8;
 }
 .header-bottom{
 	height: 2px;
@@ -71,14 +71,6 @@ ul{
 .hide{
 	display: none;
 }
-.close{
-	display: block;
-	float: right;
-	width: 21px;
-	height: 21px;
-	background: transparent url(../Images/close.png) no-repeat;
-	cursor: pointer;
-}
 
 .title{
 	font-size: 18px;
@@ -90,10 +82,8 @@ ul{
 
 .hd-title{
 	margin: 0 15px;
-	background: transparent url(../Images/logo.png) no-repeat 5px 19px;
 }
 .hd-indexLink{
-	padding-left: 40px;
 	line-height: 62px;
 }
 .hd-btn{
@@ -134,13 +124,6 @@ ul{
 	padding-right: 10px;
 	border-right: solid 1px #283449;
 }
-.hd-user .user-info .userIcon{
-	display: inline-block;
-	width: 13px;
-	height: 12px;
-	margin-right: 6px;
-	background: transparent url(../Images/user-default.png) no-repeat;
-}
 
 .mask{
 	height: 100%;
@@ -157,4 +140,22 @@ ul{
 	position: absolute;
 	background-color: #fff;
 	z-index:9;
+}
+
+.index-pic{
+	display: inline-block; background: url('../Images/index.png') no-repeat;
+}
+.logo {
+	background-position: -259px -482px; 
+	width: 28px; 
+	height: 28px; 
+	margin-right: 7px;
+	vertical-align: -6px;
+}
+.close { background-position: -287px -482px; width: 21px; height: 21px; }
+.user-default {
+	background-position: -308px -482px; 
+	width: 12px; 
+	height: 12px; 
+	margin-right: 6px;
 }

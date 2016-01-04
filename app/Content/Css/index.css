@@ -1,3 +1,6 @@
+p{
+	font-size: 14px;
+}
 .container{
 	position: relative;
 	height: auto;
@@ -24,20 +27,6 @@
 	margin: 0 auto;
 	z-index: -1;
 }
-.wall-pic-1{
-	height: 482px;
-	width: 692px;
-	background: transparent url(../Images/bg-1.png);
-}
-.wall-pic-2{
-	position: absolute;
-	bottom: 0;
-	right: 96px;
-	height: 168px;
-	width: 219px;
-	background: transparent url(../Images/bg-2.png);
-}
-
 .welcome{
 	margin-right: 3px;
 	position: relative;
@@ -97,13 +86,6 @@
 .start:hover{
 	background-color: #40ad7a;
 }
-.start .arrow{
-	display: inline-block;
-	width: 40px;
-	height: 37px;
-	vertical-align: middle;
-	background: transparent url(../Images/arrow-index.png);
-}
 .start .triangle{
 	position: absolute;
 	right: 0;
@@ -115,7 +97,8 @@
 }
 
 .chooseCourse{
-	top: 125px;
+	position: absolute;
+	top: 120px;
 	left: 50%;
 	width: 500px;
 	height: 350px;
@@ -129,8 +112,21 @@
 	background-color: #6584b3;
 	color: #fff;
 }
+
+.chooseCourse .closeWrapper{
+	position: absolute;
+	top: -3px;
+	right: -3px;
+	padding: 7px;
+	height: 22px;
+	cursor: pointer;
+}
+.chooseCourse .closeWrapper:hover{
+	background-color: #CF606E;
+}
 .chooseCourse .close{
-	margin: 5px 0;
+	width: 21px;
+	height: 21px;
 }
 .chooseCourse .dialog-text{
 	padding: 12px 16px;
@@ -181,6 +177,17 @@
 	background-color: #1482c7;
 	color: #fff;
 }
+
+.wall-pic-1 { background-position: 0 0; width: 692px; height: 482px; }
+.wall-pic-2 {
+	position: absolute;
+	bottom: 0;
+	right: 96px;
+	width: 219px;
+	height: 168px;
+	background-position: 0 -482px;
+}
+.arrow-index { background-position: -219px -482px; width: 40px; height: 37px; vertical-align: middle;}
 
 .bank-icon{
 	display: block; margin: 5px auto 0 auto;overflow: hidden;width: 21px; height: 20px;

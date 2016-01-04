@@ -12,12 +12,12 @@
 </head>
 <body ng-app='index' ng-controller="indexCtrl">
 	<div class="header">
-		<div ng-include="'header.html'"></div>
+		<div ng-include="'partials/header.html'"></div>
 	</div>
 	<div class="container">
-		<div class="wall clearfix">
-			<div class="wall-pic-1 left"></div>
-			<div class="wall-pic-2 right"></div>
+		<div class="wall">
+			<div class="index-pic wall-pic-1"></div>
+			<div class="index-pic wall-pic-2"></div>
 		</div>
 		<div class="container-content clearfix">
 			<div class="left welcome">
@@ -40,16 +40,18 @@
 			</div>
 			<a class="left start" id="start" ng-click='showDialog()'>
 				快来体验吧
-				<span class="arrow"></span>
+				<span class="index-pic arrow-index"></span>
 				<span class="triangle"></span>
 			</a>
 		</div>
 	</div>
-	<div ng-include="'footer.html'"></div>
+	<div ng-include="'partials/footer.html'"></div>
 	<div ng-show="dialogIsShown" class="ng-hide">
 		<div class="mask" ng-click='hideDialog()'></div>
 		<div class="dialog chooseCourse">
-			<div class="dialog-title">首次登录请选择题库<div class="close" ng-click="hideDialog()"></div></div>
+			<div class="dialog-title">首次登录请选择题库
+				<div class="closeWrapper" ng-click="hideDialog()"><i class="index-pic close"></i></div>
+			</div>
 			<div class="dialog-text">您可能是第一次访问本系统，需要您在下列题库中选择一个作为当前访问的题库，以便进行后续的选题组卷操作。</div>
 			<div class="dialog-content">
 				<div class="courseBank junior">

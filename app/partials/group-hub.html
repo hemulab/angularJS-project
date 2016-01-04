@@ -1,0 +1,34 @@
+<div class="group-head">
+	<div class="group-head-tab left">
+		<div class="group-choose-wrapper left">
+			<a href="#/group-hub/manual" class="group-choose manual"><i class="icon side-file"></i>人工选题</a>
+		</div>
+		<a href="#/group-hub/auto" class="group-choose left auto"><i class="icon autoChoose"></i>智能选题</a>
+	</div>
+	<div class="cartBar right" ng-include="'partials/cartBar.html'"></div>
+	<div class="group-head-bottom"></div>
+</div>
+<div class="group-sideBar">
+	<div class="sideBar-title"><i class="bank-icon side-file"></i>高中数学</div>
+	<ol class="sideBar-tree">
+		<li class="sideBar-root">
+			<span><i class="icon opened"></i>集合与常用逻辑用语</span>
+			<ol class="sideBar-root-content">
+				<li class="sideBar-node">
+					<span><i class="icon closed"></i>集合的概念</span>
+					<ol class="node-list">
+						<li class="node-title">命题及关系</li>
+					</ol>
+				</li>
+				<li class="sideBar-node">
+					<span><i class="icon opened"></i>集合的概念</span>
+					<ol class="node-list">
+						<li class="node-title">命题及关系</li>
+					</ol>
+				</li>
+			</ol>
+		</li>
+	</ol>
+	</div>
+</div>
+<div class="group-container" ng-include="hubContent"></div>
