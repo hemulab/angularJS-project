@@ -14,8 +14,28 @@ var hubs = [
 	{name:'试卷中心', id:'paper'},
 	{name:'个人中心', id:'user'}
 ];
+var groupSortSet = [
+	{title:'年级',choices:[
+		'全部','高一','高二','高三'
+	]},
+	{title:'类型',choices:[
+		'全部','同步练习','综合测试','高考模拟','高考真题','竞赛选拔'
+	]},
+	{title:'题型',choices:[
+		'全部','选择题','填空题','解答题'
+	]},
+	{title:'难度',choices:[
+		'全部','容易','较易','一般','较难','困难'
+	]},
+	{title:'地区',choices:[
+		'全部','北京'
+	]},
+	{title:'年份',choices:[
+		'全部','2013'
+	]}
+];
 var indexApp = angular.module('index', []).
-	controller('indexCtrl', function($scope){
+	controller('indexCtrl', ['$scope', function($scope){
 		$scope.dialogIsShown = false;
 		$scope.showDialog = function() {
 			$scope.dialogIsShown = true;
@@ -24,17 +44,35 @@ var indexApp = angular.module('index', []).
 			$scope.dialogIsShown = false;
 		};
 		$scope.courses = courses;
-	});
+	}]);
+
+var paperViewApp = angular.module('paperView', []).
+	controller('paperViewCtrl', ['$scope', function($scope){
+		$scope.winClose = function() {
+		    window.opener=null;
+		    window.close();
+		    //Scripts may close only the windows that were opened by it.
+		};
+	}]);
 
 var systemApp = angular.module('system', ['ngRoute']).
-	controller('systemCtrl', ['$scope','$route','$routeParams','$location',function($scope, $route, $routeParams, $location){
-		$scope.$route = $route;
-		$scope.$location = $location;
-     	$scope.$routeParams = $routeParams;
+	controller('systemCtrl', ['$scope', '$location',function($scope, $location){
      	$scope.hubs = hubs;
 		$scope.courses = courses;
-		$scope.listIsShown = false;
 		$scope.nowCourse = '高中语文';
+		$scope.isActiveHub = function(e) {
+			var path = $location.path();	
+			if( path.indexOf(e.id) == 1 ) {
+				if( path.indexOf('preview')>-1 ) return false;
+				$scope.title = e.name;
+				return true;
+			}
+			else if( e.id== 'group' && path.indexOf('preview')>-1 ) {
+				$scope.title = '试卷预览';
+				return true;
+			}
+			else return false;
+		};
 		$scope.sortBarPath = 'partials/user-hub-sortBar.html';
 		$scope.changeNowCourse = function(e) {
 			var e = e || window.event,
@@ -42,16 +80,14 @@ var systemApp = angular.module('system', ['ngRoute']).
 			$scope.nowCourse = targ.innerHTML;
 			$scope.listIsShown = false;
 		};
-		$scope.toggleCourseList = function() {
-			$scope.listIsShown = !$scope.listIsShown;
-		};
+		$scope.groupSortSet = groupSortSet;
 	}]).
 	config(function($routeProvider) {
 	  	$routeProvider.
 	  	when('/group-hub', {redirectTo:'/group-hub/manual'}).
 	  	when('/group-hub/:method', {
 		    templateUrl: 'partials/group-hub.html',
-		    controller: 'grouprHubCtrl'
+		    controller: 'groupHubCtrl'
 	  	}).
 	  	when('/paper-hub', {
 		    templateUrl: 'partials/paper-hub.html',
@@ -59,25 +95,34 @@ var systemApp = angular.module('system', ['ngRoute']).
 	  	}).
 	  	when('/user-hub/:name',{
 	  		templateUrl:'partials/user-hub.html',
-	  		controller: 'userRecordCtrl'
+	  		controller: 'userHubCtrl'
+	  	}).
+	  	when('/paper-preview',{
+	  		templateUrl:'partials/paper-preview.html',
+	  		controller: 'paperPreviewCtrl'
 	  	}).
 	  	otherwise({redirectTo:'/user-hub/saved'});
 	}).
-	controller('userRecordCtrl', ['$scope','$routeParams', function($scope, $routeParams){
-		cleanActive();
-		makeHubActiveAndChangeTitle($scope,'user');
+	controller('userHubCtrl', ['$scope','$routeParams', function($scope, $routeParams){
 		var name = $routeParams.name, detail;
-		makeUserSideActive(name);
 		var set = [
 			{name:'saved', data:''},
 			{name:'downloaded', data:''},
 			{name:'question', data:''},
 			{name:'paper', data:''}
 		];
+		$scope.userHub = {
+			saved: true,
+			downloaded: false,
+			question: false,
+			paper: false
+		};
 		set.forEach(function(item,i,context){
 			if(item.name == name){
+				$scope.userHub[item.name] = true;
 				detail = item;
-				return;
+			}else{
+				$scope.userHub[item.name] = false;
 			}
 		});
 		$scope.detail = detail;
@@ -93,34 +138,112 @@ var systemApp = angular.module('system', ['ngRoute']).
 			break;
 			default:
 			$scope.hubContent = 'partials/user-hub-savedRecord.html';
-		}
+		};
 	}]).
-	controller('grouprHubCtrl', ['$scope','$routeParams', function($scope, $routeParams){
-		cleanActive();
-		makeHubActiveAndChangeTitle($scope,'group');
+	controller('groupHubCtrl', ['$scope','$routeParams', function($scope, $routeParams){
 		var method = $routeParams.method, detail;
-		makeGroupChooseActive(method);
-	}])
-	;
+		if(method === 'auto'){
+			$scope.hubContent = 'partials/group-hub-auto.html';
+			$scope.autoActive = true;
+		}else{
+			$scope.hubContent = 'partials/group-hub-manual.html';
+			$scope.autoActive = false;
+		}
+		var dataSet = [
+			{
+				title:'集合与常用逻辑用语',
+				nodes:[
+					{
+						title:'集合的概念',
+						list:[
+							{
+								title:'命题及关系',
+								link:'#'
+							},
+							{
+								title:'充分条件与必要条件',
+								link:'#'
+							}
+						]
+					}
+				]
+			}
+		]
+		$scope.tables = dataSet;
+		$scope.resize = function() {
+			var oDiv = document.getElementById('group-resize'),
+				oDiv2 = document.getElementById('group-sideBar'),
+				oDiv3 = document.getElementById('group-container'),
+				title = document.getElementById('group-sideBar-title'),
+				minWidth = 180, maxWidth = 800;
 
-function cleanActive(){
-	var actived = document.getElementsByClassName('active');
-	for(var i = actived.length; i--;){
-		actived[i].className = actived[i].className.replace(' active', '');
-	}
-}
-function makeHubActiveAndChangeTitle ($s, hubId) {
-	var hub = document.getElementsByClassName(hubId)[0];
-	hub.className += ' active';
-	document.title = hub.innerHTML + ' | 万方在线组卷系统';
-}
-function makeUserSideActive(name){
-	var activedElem = document.getElementsByClassName('user-sideBar')[0].getElementsByClassName(name)[0],
-		activedElemParent = activedElem.parentNode;
-	activedElem.className += ' active';
-	activedElemParent.className += ' active';
-}
-function makeGroupChooseActive (method) {
-	var activedElem = document.getElementsByClassName(method)[0];
-	activedElem.className += ' active';
-}
+			oDiv.onmousedown = function(ev) {
+			    var oEvent = ev || event;
+			    var disX = oEvent.clientX;
+
+			    document.onmousemove = function(ev) {
+			        var oEvent = ev || event;
+			        var fixed = oEvent.clientX - 8;
+			        oDiv2.style.width = ( fixed>minWidth ? ( fixed<maxWidth ? fixed : maxWidth ) : minWidth)+ 'px';
+			        oDiv3.style.marginLeft = oDiv2.style.width;
+			    };
+
+			    document.onmouseup = function() {
+			        document.onmousemove = null;
+			        document.onmouseup = null;
+			    };
+			    return false;
+			};
+		};
+		$scope.choosePoint = function(e) {
+			var e = e || window.event,
+				targ = e.target || e.srcElement;
+			var choosedElme = document.getElementsByClassName('choosed')[0];
+			if(choosedElme) choosedElme.className = choosedElme.className.replace(' choosed','');
+			if(angular.lowercase(targ.tagName) === 'span'){
+				targ.parentNode.className += ' choosed';
+				$scope.nowPointTitle = targ.innerText;
+			}
+		};
+		$scope.points =[];
+		$scope.addToPoints = function(i) {
+			if(!i.nodes && !i.list){
+				if($scope.points.indexOf(i)== -1) $scope.points.push(i);
+			}
+			else if(!i.nodes && i.list){
+				for (var j = 0, len = i.list.length; j < len; j++) {
+					if($scope.points.indexOf(i.list[j])== -1) $scope.points.push(i.list[j]);
+				};
+			}
+			else  if(i.nodes){
+				for (var j = 0, len1 = i.nodes.length; j < len1; j++) {
+					for (var k = 0, len2 = i.nodes[j].list.length; k < len2; k++) {
+						if($scope.points.indexOf(i.nodes[j].list[k])== -1) $scope.points.push(i.nodes[j].list[k]);
+					};
+				};
+			}
+		};
+		$scope.deletePoint = function(index) {
+			$scope.points.splice(index, 1);
+		};
+		$scope.choice = [
+			{num:'0', previousNum:'0',grade:'easy'},
+			{num:'0', previousNum:'0',grade:'littleEasy'},
+			{num:'0', previousNum:'0',grade:'middle'},
+			{num:'0', previousNum:'0',grade:'littleHard'},
+			{num:'0', previousNum:'0',grade:'hard'}
+		];
+		$scope.saveNum = function(index) {
+			$scope.points[index].choice.sum=0;
+			$scope.points[index].choice.forEach(function(i) {
+				i.previousNum = i.num;
+				$scope.points[index].choice.sum+=parseInt(i.previousNum);
+			});
+		};
+	}]).
+	controller('paperHubCtrl', ['$scope','$routeParams', function($scope, $routeParams){
+		
+	}]).
+	controller('paperPreviewCtrl', ['$scope', function($scope){
+
+	}]);

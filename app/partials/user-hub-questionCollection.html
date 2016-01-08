@@ -1,28 +1,3 @@
 <div class="cartBar" ng-include="'partials/cartBar.html'"></div>
 <div class="user-hub-sortBar-wrapper" ng-include="sortBarPath"></div>
-<div class="hub-content collection">
-	<div class="hub-content-total">共<span ng-bind="totalNum"></span>道</div>
-	<div class="collection-content">
-		<div class="collection-item">
-			<div class="collection-item-operation">
-				<a href="#"><i class="icon decBacket"></i>移出试题篮</a>
-				<a href="#"><i class="icon file"></i>详细</a>
-				<a href="#"><i class="icon decCollection"></i>取消收藏</a>
-			</div>
-			<div class="collection-question">
-				<p><span class="question-info">【题号：<span class="question-info-id">23456</span>】 来源：</span>北京市翠微中学高二期末测试卷</p>
-				<p><span class="question-info-bold">关联知识点：</span>集合的概念 | <span class="question-info-bold">难度：</span><i class="icon degree2"></i> |<span class="question-info-bold">年份：</span>2010 |</p>
-			</div>
-			<div class="question-content">
-				<p class="question-title">已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数</p>
-				<div class="question-answer">
-					<span class="question-answer-choice">A. -1005</span>
-					<span class="question-answer-choice">B. -1006</span>
-					<span class="question-answer-choice">C. -1007</span>
-					<span class="question-answer-choice">D. -1008</span>
-				</div>
-			</div>
-		</div>
-		<div class="pagenation"></div>
-	</div>
-</div>
+<div class="hub-content collection" ng-include="'partials/question.html'"></div>

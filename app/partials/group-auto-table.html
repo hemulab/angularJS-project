@@ -1,0 +1,34 @@
+<table class="gourp-auto-table">
+	<thead>
+		<tr>
+			<th class="gourp-auto-question-type">题型</th>
+			<th>容易</th>
+			<th>较易</th>
+			<th>一般</th>
+			<th>较难</th>
+			<th>困难</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="group-auto-item">
+			<td>选择题：</td>
+			<td ng-repeat="item in choice"><span class="group-auto-td">{{item.previousNum}}</span><input ng-if="nowPointTitle" type="text" class="group-auto-setting" ng-model="item.num" maxlength="3"></td>
+		</tr>
+		<tr class="group-auto-item">
+			<td>填空题：</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+		<tr class="group-auto-item">
+			<td>解答题：</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+	</tbody>
+</table>

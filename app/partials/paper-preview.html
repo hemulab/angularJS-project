@@ -1,0 +1,54 @@
+<div class="preview-sideBar">
+	<div class="preview-sideBar-tab clearfix">
+		<span class="preview-tab-item active">默认</span>
+		<span class="preview-tab-item">标准</span>
+		<span class="preview-tab-item">测验</span>
+		<span class="preview-tab-item">作业</span>
+	</div>
+	<div class="preview-sideBar-hd">
+		<div class="preview-sideBar-title"><i class="icon"></i>卷头</div>
+		<ul class="preview-sideBar-hd-list">
+			<li class="preview-sideBar-hd-item">
+				<input type="checkbox" checked="checked"><i class="icon"></i>{{previewSideBar.default.title}}
+			</li>
+		</ul>
+	</div>
+	<div class="preview-sideBar-body">
+		<div class="preview-sideBar-title"><i class="icon"></i>卷体</div>
+		<ul class="preview-sideBar-body-list">
+			<li class="preview-sideBar-body-item">
+				<input type="checkbox" checked="checked"><i class="icon"></i>{{previewSideBar.default.title}}
+				<div class="preview-sideBar-body-item-sub">
+					<input type="checkbox" checked="checked"><i class="icon"></i>{{previewSideBar.default.title}}
+					<ol class="preview-sideBar-body-list-sub">
+						<li>2012-2013</li>
+						<li>2012-2013</li>
+						<li>2012-2013</li>
+						<li>2012-2013</li>
+						<li>2012-2013</li>
+					</ol>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+<div class="preview-container">
+	<div class="preview-container-hd">
+		<div class="right" ng-include="'partials/cartBar.html'"></div>
+		<div class="btn-wrapper-group right">
+			<div class="btn-wrapper active">
+				<a href="#" class="btn-content">保存试卷</a>
+			</div>
+			<div class="btn-wrapper">
+				<a href="#" class="btn-content">下载试卷</a>
+			</div>
+			<div class="btn-wrapper">
+				<a href="#" class="btn-content">下载答题卡</a>
+			</div>
+			<div class="btn-wrapper">
+				<a href="#" class="btn-content">试卷分析</a>
+			</div>
+		</div>
+	</div>
+	<div class="preview-content" ng-include="'partials/paperContent.html'"></div>
+</div>

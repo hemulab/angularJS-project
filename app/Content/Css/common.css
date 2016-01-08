@@ -71,6 +71,9 @@ ul{
 .hide{
 	display: none;
 }
+.overflowHidden{
+	overflow: hidden;
+}
 
 .title{
 	font-size: 18px;
@@ -94,7 +97,7 @@ ul{
 	text-align: center;
 	cursor: pointer;
 }
-.btn-wrapper{
+.hd-btn-wrapper{
 	float: inherit;
 	border-left: solid 1px #3e5171;
 	border-right: solid 1px #283449;
