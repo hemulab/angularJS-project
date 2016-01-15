@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title> {{title}} | 万方在线组卷系统</title>
+	<title> {{views.title}} | 万方在线组卷系统</title>
 	<link rel="stylesheet" type="text/css" href="Content/Css/common.css">
 	<link rel="stylesheet" type="text/css" href="Content/Css/system.css">
+	<link rel="Shortcut Icon" href="Content/Images/favicon.ico"/>
 	<script type="text/javascript" src="Scripts/angular.min.js"></script>
 	<script type="text/javascript" src="Scripts/angular-route.min.js"></script>
 	<script type="text/javascript" src="Scripts/common.js"></script>
@@ -15,17 +16,17 @@
 		<div ng-include="'partials/header.html'"></div>
 		<div class="hd-tab">
 			<div class="hd-course-wrapper left" ng-init="ovh=true" ng-class="{overflowHidden:ovh}" ng-mouseleave="ovh=true">
-				<a class="system-course-active" ng-click="ovh=!ovh">{{nowCourse}}<i class="icon arrow-down"></i></a>
-				<ul class="system-courseList junior" ng-click="changeNowCourse()">
-					<li class="system-courseList-item" ng-repeat="i in courses">初中{{i.course}}</li>
+				<a class="system-course-active" ng-click="ovh=!ovh">{{views.nowCourse}}<i class="icon arrowDown"></i></a>
+				<ul class="system-courseList junior" ng-click="views.changeNowCourse($event)">
+					<li class="system-courseList-item" ng-repeat="i in views.courses">初中{{i.course}}</li>
 				</ul>
-				<ul class="system-courseList senior" ng-click="changeNowCourse()">
-					<li class="system-courseList-item" ng-repeat="i in courses">高中{{i.course}}</li>
+				<ul class="system-courseList senior" ng-click="views.changeNowCourse($event)">
+					<li class="system-courseList-item" ng-repeat="i in views.courses">高中{{i.course}}</li>
 				</ul>
 			</div>
 			<div class="hub-wrapper left">
-				<div class="hd-btn-wrapper" ng-repeat="h in hubs">
-					<a href="#/{{h.id}}-hub" class="hub {{h.id}}" ng-class=" {active: isActiveHub(h)}">{{h.name}}</a>
+				<div class="hd-btn-wrapper" ng-repeat="h in views.hubs">
+					<a href="#/{{h.id}}-hub" class="hub {{h.id}}" ng-class=" {active: views.isActiveHub(h)}">{{h.name}}</a>
 				</div>
 			</div>
 		</div>

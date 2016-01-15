@@ -95,7 +95,6 @@ p{
     border-bottom: 26px solid #fff;
     border-left: 26px solid transparent;
 }
-
 .chooseCourse{
 	position: absolute;
 	top: 120px;
@@ -105,28 +104,11 @@ p{
 	margin-left: -250px;
 	border: solid 3px #6584b3;
 }
-.chooseCourse .dialog-title{
-	padding: 0 5px 0 16px;
-	height: 33px;
-	line-height: 30px;
-	background-color: #6584b3;
-	color: #fff;
-}
-
 .chooseCourse .closeWrapper{
-	position: absolute;
 	top: -3px;
 	right: -3px;
 	padding: 7px;
 	height: 22px;
-	cursor: pointer;
-}
-.chooseCourse .closeWrapper:hover{
-	background-color: #CF606E;
-}
-.chooseCourse .close{
-	width: 21px;
-	height: 21px;
 }
 .chooseCourse .dialog-text{
 	padding: 12px 16px;

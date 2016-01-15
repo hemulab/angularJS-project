@@ -19,6 +19,9 @@ a{
 ul{
 	list-style: none;
 }
+table{
+	border-collapse: collapse;
+}
 .header{
 	position: fixed;
 	height: 66px;
@@ -69,7 +72,10 @@ ul{
 	*zoom: 1;
 }
 .hide{
-	display: none;
+	display: none !important;
+}
+.shown{
+	display: block !important;
 }
 .overflowHidden{
 	overflow: hidden;
@@ -143,6 +149,32 @@ ul{
 	position: absolute;
 	background-color: #fff;
 	z-index:9;
+}
+.dialog-wrapper{
+	display: none;
+}
+.dialog-title{
+	padding: 0 5px 0 16px;
+	height: 33px;
+	line-height: 30px;
+	background-color: #6584b3;
+	color: #fff;
+	font-size: 14px;
+}
+.closeWrapper{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 5px;
+	height: 22px;
+	cursor: pointer;
+}
+.closeWrapper:hover{
+	background-color: #CF606E;
+}
+.close{
+	width: 21px;
+	height: 21px;
 }
 
 .index-pic{

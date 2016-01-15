@@ -1,0 +1,15 @@
+<div class="dialog-text">您可能是第一次访问本系统，需要您在下列题库中选择一个作为当前访问的题库，以便进行后续的选题组卷操作。</div>
+<div class="dialog-content">
+	<div class="courseBank junior">
+		<p>初中题库</p>
+		<div class="courseBank-list clearfix">
+			<a href="/system.html#junior-{{i.id}}" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+		</div>
+	</div>
+	<div class="courseBank senior">
+		<p>高中题库</p>
+		<div class="courseBank-list clearfix">
+			<a href="/system.html#senior-{{i.id}}" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 <div class="group-auto-head">
-	<span ng-if="!nowPointTitle"><i class="icon arrow-left"></i>欢迎使用智能选题，请选择知识点！</span>
+	<span ng-if="!nowPointTitle"><i class="icon arrowLeft"></i>欢迎使用智能选题，请选择知识点！</span>
 	<span ng-if="nowPointTitle">知识点：</span><span class="group-auto-head-choosed">{{nowPointTitle}}</span>
 </div>
 <div class="group-content">
@@ -12,7 +12,7 @@
 				<span class="group-total-item-part">解答题：{{point.solution}}</span>
 			</div>
 			<div class="group-total-item-operation">
-				<a ng-click="deletePoint($index)"><i class="icon delete"></i>删除</a>
+				<a ng-click="deletePoint($index)"><i class="icon deleteWhite"></i>删除</a>
 				<a ng-click="point.modify=false"><i class="icon modify"></i>修改</a>
 			</div>
 			<div ng-class="{hide: point.modify}">

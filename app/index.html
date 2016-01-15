@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>index</title>
+	<title>万方在线组卷系统</title>
 	<script type="text/javascript" src="Scripts/userAgent.js"></script>
 	<link rel="stylesheet" type="text/css" href="Content/Css/common.css">
 	<link rel="stylesheet" type="text/css" href="Content/Css/index.css">
+	<link rel="Shortcut Icon" href="Content/Images/favicon.ico"/>
 	<!--<script type="text/javascript" src="http://apps.bdimg.com/libs/angular.js/1.5.0-beta.0/angular.min.js"></script>-->
 	<script type="text/javascript" src="Scripts/angular.min.js"></script>
 </head>
@@ -38,37 +39,15 @@
 				<p>您可以对题库中的试题进行学科、学段、考试类型、难度、知识点等进行筛选，然后组成试卷；也可以对试卷的样式根据不同的应用场景进行调整；对组成的试卷可以存档、删除、修改并且提供Word格式的文件下载。
 				</p>
 			</div>
-			<a class="left start" id="start" ng-click='showDialog()'>
+			<div class="left start" ng-click="dialogDisplay()">
 				快来体验吧
 				<span class="index-pic arrow-index"></span>
 				<span class="triangle"></span>
-			</a>
+			</div>
 		</div>
 	</div>
 	<div ng-include="'partials/footer.html'"></div>
-	<div ng-show="dialogIsShown" class="ng-hide">
-		<div class="mask" ng-click='hideDialog()'></div>
-		<div class="dialog chooseCourse">
-			<div class="dialog-title">首次登录请选择题库
-				<div class="closeWrapper" ng-click="hideDialog()"><i class="index-pic close"></i></div>
-			</div>
-			<div class="dialog-text">您可能是第一次访问本系统，需要您在下列题库中选择一个作为当前访问的题库，以便进行后续的选题组卷操作。</div>
-			<div class="dialog-content">
-				<div class="courseBank junior">
-					<p>初中题库</p>
-					<div class="courseBank-list clearfix">
-						<a href="#" ng-repeat="i in courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
-					</div>
-				</div>
-				<div class="courseBank senior">
-					<p>高中题库</p>
-					<div class="courseBank-list clearfix">
-						<a href="#" ng-repeat="i in courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div ng-include="'partials/dialog.html'"></div>
 	<script type="text/javascript" src="Scripts/common.js"></script>
 </body>
 </html>

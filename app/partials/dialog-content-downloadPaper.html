@@ -1,0 +1,61 @@
+<div class="dialog-part-title">Word版本</div>
+<div class="dialog-part-content">
+	<input type="radio" name="wordVersion" id="docx" checked="checked"><label for="docx">Word 2007/2010，文件扩展名为docx</label>
+	<input type="radio" name="wordVersion" id="doc"><label for="doc">Word 2000/2003，文件扩展名为doc</label>
+</div>
+<div class="dialog-part-title">纸张大小</div>
+<div class="dialog-part-content">
+	<table class="dialog-paperSize">
+		<tr>
+			<td>
+				<label for="paper-a4"><i class="paper-size paper-a4"></i></label>
+				<input type="radio" name="paperSize" id="paper-a4" checked="checked">
+				<label for="paper-a4">A4</label>
+			</td>
+			<td>
+				<label for="paper-a4d"><i class="paper-size paper-a4d"></i></label>
+				<input type="radio" name="paperSize" id="paper-a4d">
+				<label for="paper-a4">A4横(双栏)</label>
+			</td>
+			<td>
+				<label for="paper-a3"><i class="paper-size paper-a3"></i></label>
+				<input type="radio" name="paperSize" id="paper-a3">
+				<label for="paper-a4">A3</label>
+			</td>
+			<td>
+				<label for="paper-16k"><i class="paper-size paper-16k"></i></label>
+				<input type="radio" name="paperSize" id="paper-16k">
+				<label for="paper-a4">16K</label>
+			</td>
+			<td>
+				<label for="paper-8kd"><i class="paper-size paper-8kd"></i></label>
+				<input type="radio" name="paperSize" id="paper-8kd">
+				<label for="paper-a4">8K横(双栏)</label>
+			</td>
+			<td>
+				<label for="paper-a3d"><i class="paper-size paper-a3d"></i></label>
+				<input type="radio" name="paperSize" id="paper-a3d">
+				<label for="paper-a4">A3横(双栏)</label>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="dialog-part-title">纸张类型</div>
+<div class="dialog-part-content">
+	<input type="radio" name="paperType" id="paper-normal" checked="checked"><label for="paper-normal">普通用卷（答案集中在卷尾）</label>
+	<input type="radio" name="paperType" id="paper-teacher"><label for="paper-teacher">教师用卷（每题后面跟答案）</label>
+	<input type="radio" name="paperType" id="paper-student"><label for="paper-student">学生用卷（无答案）</label>
+</div>
+<div class="dialog-end">
+	<input type="checkbox" name="saveDownloadRecord" id="saveDownloadRecord" checked="checked"><label for="saveDownloadRecord">保存下载记录</label>
+	<div class="btn-wrapper">
+		<div class="btn-content">
+			确定下载
+		</div>
+	</div>
+	<div class="btn-wrapper white" ng-click="dialogDisplay()">
+		<div class="btn-content">
+			取消
+		</div>
+	</div>
+</div>

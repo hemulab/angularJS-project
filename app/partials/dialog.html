@@ -1,0 +1,9 @@
+<div class="dialog-wrapper" ng-class="{shown: dialogShown}">
+	<div class="mask" ng-click="dialogDisplay()"></div>
+	<div class="dialog {{dialog.className}}">
+		<div class="dialog-title">{{dialog.title}}
+			<div class="closeWrapper" ng-click="dialogDisplay()"><i class="index-pic close"></i></div>
+		</div>
+		<div class="dialog-content" ng-include="dialog.url"></div>
+	</div>
+</div>

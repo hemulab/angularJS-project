@@ -58,8 +58,8 @@
 	<div class="paperContent-container">
 			<div class="paperContent-container-hd">
 				<div class="paperContent-container-operation">
-					<a href="#"><i class="icon addFile"></i>添加新题型</a>
-					<a href="#"><i class="icon setting"></i>设置</a>
+					<a><i class="icon addFile"></i>添加新题型</a>
+					<a ng-click="paperSetting()"><i class="icon setting"></i>设置</a>
 				</div>
 			</div>
 			<div class="paperContent-container-content">
@@ -67,10 +67,10 @@
 					<div class="paperContent-item-wrapper" ng-mouseover="operate=true" ng-mouseleave="operate=false">
 						<div class="paperContent-item-operation" ng-class="{hide: !operate}">
 							<a href="#"><i class="icon addFile"></i>详细</a>
-							<a href="#"><i class="icon setting"></i>替换</a>
-							<a href="#"><i class="icon setting"></i>删除</a>
-							<a href="#"><i class="icon setting"></i>上移</a>
-							<a href="#"><i class="icon setting"></i>下移</a>
+							<a ng-click="replaceQuestion()"><i class="icon replace"></i>替换</a>
+							<a href="#"><i class="icon deleteWhite"></i>删除</a>
+							<a href="#"><i class="icon up"></i>上移</a>
+							<a href="#"><i class="icon down"></i>下移</a>
 						</div>
 						<li class="paperContent-item">
 							<div class="paperContent-item-question">已知四个式子：
@@ -114,7 +114,7 @@
 										<div class="fraction-bottom">7</div>
 									</div>)
 								</div>
-							，它们的值从小到大的顺序是</div>（ &nbsp; ）。
+							，它们的值从小到大的顺序是（ &nbsp; ）。</div>
 							<div class="paperContent-item-answer clearfix">
 								<div class="paperContent-answer-wrapper left">
 									<span class="paperContent-answer-choice">A. (4)&lt;(3)&lt;(2)&lt;(1)</span>
@@ -176,7 +176,7 @@
 						<span class="paperContent-container-part-title">三. 填空题{注释}</span>
 						<div class="paperContent-container-operation">
 							<a href="#"><i class="icon clean"></i>清空</a>
-							<a href="#"><i class="icon delete"></i>删除</a>
+							<a href="#"><i class="icon deleteWhite"></i>删除</a>
 							<a href="#"><i class="icon setting"></i>设置</a>
 							<a href="#"><i class="icon up"></i>上移</a>
 							<a href="#"><i class="icon down"></i>下移</a>

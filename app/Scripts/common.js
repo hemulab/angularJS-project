@@ -1,13 +1,13 @@
 var courses = [
-	{course:'语文', icon:'i1'},
-	{course:'数学', icon:'i2'},
-	{course:'英语', icon:'i3'},
-	{course:'物理', icon:'i4'},
-	{course:'化学', icon:'i5'},
-	{course:'生物', icon:'i6'},
-	{course:'政治', icon:'i7'},
-	{course:'历史', icon:'i8'},
-	{course:'地理', icon:'i9'}
+	{course:'语文', icon:'i1', id:'Chinese'},
+	{course:'数学', icon:'i2', id:'Math'},
+	{course:'英语', icon:'i3', id:'English'},
+	{course:'物理', icon:'i4', id:'Physics'},
+	{course:'化学', icon:'i5', id:'Chemistry'},
+	{course:'生物', icon:'i6', id:'biology'},
+	{course:'政治', icon:'i7', id:'politics'},
+	{course:'历史', icon:'i8', id:'history'},
+	{course:'地理', icon:'i9', id:'geography'}
 ];
 var hubs = [
 	{name:'组卷中心', id:'group'},
@@ -36,14 +36,18 @@ var groupSortSet = [
 ];
 var indexApp = angular.module('index', []).
 	controller('indexCtrl', ['$scope', function($scope){
-		$scope.dialogIsShown = false;
-		$scope.showDialog = function() {
-			$scope.dialogIsShown = true;
+		$scope.dialogShown = false;
+		$scope.dialogDisplay=function() {
+			$scope.dialogShown = !$scope.dialogShown
 		};
-		$scope.hideDialog = function() {
-			$scope.dialogIsShown = false;
+		$scope.dialog = {
+			className:'chooseCourse',
+			title:'首次登录请选择题库',
+			url:'partials/dialog-content-index.html'
 		};
-		$scope.courses = courses;
+		$scope.views = {
+			courses: courses
+		};
 	}]);
 
 var paperViewApp = angular.module('paperView', []).
@@ -57,30 +61,46 @@ var paperViewApp = angular.module('paperView', []).
 
 var systemApp = angular.module('system', ['ngRoute']).
 	controller('systemCtrl', ['$scope', '$location',function($scope, $location){
-     	$scope.hubs = hubs;
-		$scope.courses = courses;
-		$scope.nowCourse = '高中语文';
-		$scope.isActiveHub = function(e) {
-			var path = $location.path();	
-			if( path.indexOf(e.id) == 1 ) {
-				if( path.indexOf('preview')>-1 ) return false;
-				$scope.title = e.name;
-				return true;
-			}
-			else if( e.id== 'group' && path.indexOf('preview')>-1 ) {
-				$scope.title = '试卷预览';
-				return true;
-			}
-			else return false;
+		$scope.views = {
+			title: '',
+			hubs: hubs,
+			courses: courses,
+			nowCourse: null,
+			changeNowCourse: function(e) {
+				var e = e || window.event,
+					targ = e.target || e.srcElement;
+				$scope.views.nowCourse = targ.innerHTML;
+				$scope.views.listIsShown = false;
+			},
+			isActiveHub: function(e) {
+				var path = $location.path();	
+				if( path.indexOf(e.id) == 1 ) {
+					if( path.indexOf('preview')>-1 ) return false;
+					$scope.views.title = e.name;
+					return true;
+				}
+				else if( e.id== 'group' && path.indexOf('preview')>-1 ) {
+					$scope.views.title = '试卷预览';
+					return true;
+				}
+				else return false;
+			},
+			sortBarPath: 'partials/user-hub-sortBar.html',
+			groupSortSet: groupSortSet
 		};
-		$scope.sortBarPath = 'partials/user-hub-sortBar.html';
-		$scope.changeNowCourse = function(e) {
-			var e = e || window.event,
-				targ = e.target || e.srcElement;
-			$scope.nowCourse = targ.innerHTML;
-			$scope.listIsShown = false;
-		};
-		$scope.groupSortSet = groupSortSet;
+		$scope.views.nowCourse = $scope.views.nowCourse || function() {
+			var url = window.location.href,
+				grade = url.slice(url.lastIndexOf('/')+1, url.indexOf('-')), gradeCN='',
+				course = url.slice(url.indexOf('-')+1), courseCN='';
+			if(grade === 'junior') gradeCN='初中';
+			else if(grade === 'senior') gradeCN='高中';
+			courses.forEach(function(item, index) {
+				if(course === item.id) return courseCN = item.course;
+			});
+			if(gradeCN.length && course.length){
+				return gradeCN+courseCN;
+			}
+		}();//应使用localStorage
 	}]).
 	config(function($routeProvider) {
 	  	$routeProvider.
@@ -163,6 +183,10 @@ var systemApp = angular.module('system', ['ngRoute']).
 							{
 								title:'充分条件与必要条件',
 								link:'#'
+							},
+							{
+								title:'简单的逻辑连接词',
+								link:'#'
 							}
 						]
 					}
@@ -171,21 +195,23 @@ var systemApp = angular.module('system', ['ngRoute']).
 		]
 		$scope.tables = dataSet;
 		$scope.resize = function() {
-			var oDiv = document.getElementById('group-resize'),
-				oDiv2 = document.getElementById('group-sideBar'),
-				oDiv3 = document.getElementById('group-container'),
+			var btn = document.getElementById('group-resize'),
+				leftPart = document.getElementById('group-sideBar'),
+				rightPart = document.getElementById('group-container'),
+				line = document.getElementById('group-resize-line'),
 				title = document.getElementById('group-sideBar-title'),
 				minWidth = 180, maxWidth = 800;
 
-			oDiv.onmousedown = function(ev) {
+			btn.onmousedown = function(ev) {
 			    var oEvent = ev || event;
 			    var disX = oEvent.clientX;
 
 			    document.onmousemove = function(ev) {
 			        var oEvent = ev || event;
 			        var fixed = oEvent.clientX - 8;
-			        oDiv2.style.width = ( fixed>minWidth ? ( fixed<maxWidth ? fixed : maxWidth ) : minWidth)+ 'px';
-			        oDiv3.style.marginLeft = oDiv2.style.width;
+			        leftPart.style.width = ( fixed>minWidth ? ( fixed<maxWidth ? fixed : maxWidth ) : minWidth)+ 'px';
+			        rightPart.style.marginLeft = leftPart.style.width;
+			        line.style.left = parseInt(leftPart.style.width) + 1 + 'px';
 			    };
 
 			    document.onmouseup = function() {
@@ -202,7 +228,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 			if(choosedElme) choosedElme.className = choosedElme.className.replace(' choosed','');
 			if(angular.lowercase(targ.tagName) === 'span'){
 				targ.parentNode.className += ' choosed';
-				$scope.nowPointTitle = targ.innerText;
+				$scope.nowPointTitle = targ.innerHTML;
 			}
 		};
 		$scope.points =[];
@@ -245,5 +271,55 @@ var systemApp = angular.module('system', ['ngRoute']).
 		
 	}]).
 	controller('paperPreviewCtrl', ['$scope', function($scope){
-
+		$scope.dialogShown = false;
+		$scope.dialogDisplay=function() {
+			$scope.dialogShown = !$scope.dialogShown;
+		};
+		$scope.savePaper = function() {
+			$scope.dialog = {
+				className:'savePaper',
+				title:'保存试卷',
+				url:'partials/dialog-content.html'
+			}
+		};
+		$scope.downloadPaper = function() {
+			$scope.dialogDisplay();
+			$scope.dialog = {
+				className:'downloadPaper',
+				title:'下载Word试卷',
+				url:'partials/dialog-content-downloadPaper.html'
+			}
+		};
+		$scope.downloadAnswerCard = function() {
+			$scope.dialogDisplay();
+			$scope.dialog = {
+				className:'downloadAnswerCard',
+				title:'下载答题卡',
+				url:'partials/dialog-content-downloadAnswerCard.html'
+			}
+		};
+		$scope.paperAnalysis = function() {
+			$scope.dialogDisplay();
+			$scope.dialog = {
+				className:'paperAnalysis',
+				title:'试卷分析',
+				url:'partials/dialog-content-paperAnalysis.html'
+			}
+		};
+		$scope.replaceQuestion = function() {
+			$scope.dialogDisplay();
+			$scope.dialog = {
+				className:'replaceQuestion',
+				title:'试题替换——准备替换当前第'+'题【ID:】',
+				url:'partials/dialog-content-replaceQuestion.html'
+			}
+		};
+		$scope.paperSetting = function() {
+			$scope.dialogDisplay();
+			$scope.dialog = {
+				className:'paperSetting',
+				title:'试卷设置',
+				url:'partials/dialog-content-paperSetting.html'
+			}
+		};
 	}]);

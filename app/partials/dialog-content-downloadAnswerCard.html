@@ -1,0 +1,39 @@
+<div class="dialog-part-title">Word版本</div>
+<div class="dialog-part-content">
+	<input type="radio" name="wordVersion" id="docx" checked="checked"><label for="docx">Word 2007/2010，文件扩展名为docx</label>
+	<input type="radio" name="wordVersion" id="doc"><label for="doc">Word 2000/2003，文件扩展名为doc</label>
+</div>
+<div class="dialog-part-title">答题卡样式</div>
+<div class="dialog-part-content">
+	<table class="dialog-answerCardStyle">
+		<tr>
+			<td>
+				<label for="normal"><i class="answerCardStyle answercard-normal"></i></label>
+				<input type="radio" name="answerCardStyle" id="normal" checked="checked">
+				<label for="normal">普通表格型</label>
+			</td>
+			<td>
+				<label for="standard"><i class="answerCardStyle answercard-standard"></i></label>
+				<input type="radio" name="answerCardStyle" id="standard">
+				<label for="standard">标准题卡型</label>
+			</td>
+			<td>
+				<label for="crowed"><i class="answerCardStyle answercard-crowed"></i></label>
+				<input type="radio" name="answerCardStyle" id="crowed">
+				<label for="crowed">选择密集型</label>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="dialog-end">
+	<div class="btn-wrapper">
+		<div class="btn-content">
+			确定下载
+		</div>
+	</div>
+	<div class="btn-wrapper white" ng-click="dialogDisplay()">
+		<div class="btn-content">
+			取消
+		</div>
+	</div>
+</div>

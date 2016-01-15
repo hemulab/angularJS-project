@@ -1,5 +1,5 @@
 <ul class="multi-sortItemList">
-	<li class="multi-sortItem" ng-repeat="item in groupSortSet">
+	<li class="multi-sortItem" ng-repeat="item in views.groupSortSet">
 		<span class="multi-sortItem-title">{{item.title}}：</span>
 		<span class="multi-sortItem-choice" ng-repeat="choice in item.choices">{{choice}}</span>
 	</li>
@@ -7,8 +7,8 @@
 <div class="sortBar">
 	<div class="sortBy left">
 		<span class="sortBy-title">筛选条件：</span>
-		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon close-lte"></i></div></span>
-		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon close-lte"></i></div></span>
+		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon closeLte"></i></div></span>
+		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon closeLte"></i></div></span>
 	</div>
 	<div class="sortBar-search right">
 		<input class="sortBar-search-input" placeholder="在结果中检索"/>
