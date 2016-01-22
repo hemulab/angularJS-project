@@ -6,7 +6,7 @@
 			<span ng-click="views.cancelPaperCollection[$index] = true"><i class="icon decCollection"></i>取消收藏</span>
 		</div>
 		<div class="collection-paper">
-			<span class="paper-info">【卷号：<span class="paper-info-id">{{item.id}}</span>】 </span><a href="/paper-view.html?{{item.id}}" class="collection-paper-title">{{item.title}}</a>
+			<span class="paper-info">【卷号：<span class="paper-info-id">{{item.id}}</span>】 </span><a href="paper-view.html?{{item.id}}" class="collection-paper-title">{{item.title}}</a>
 		</div>
 	</div>
 	<div class="pagination" ng-include="'partials/pagination.html'"></div>
