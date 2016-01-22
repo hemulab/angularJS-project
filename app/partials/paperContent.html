@@ -1,4 +1,4 @@
-<div class="paperContent-sideBar">
+<div class="paperContent-sideBar" ng-if="previewSideBar.showItems('line').shown">
 	<div class="paperContent-gutter">
 		…………o…………外…………o…………装…………o…………订…………o…………线…………o…………
 	</div>
@@ -15,14 +15,14 @@
 	</div>
 </div>
 <div class="paperContent-content">
-	<div class="paperContent-hd">
-		<p class="paperContent-lable">绝密★启用前</p>
-		<div class="paperContent-paperHead right">
-			<h2 class="paperContent-title">xxx-xxxx学年度xx学校xx月考卷</h2>
-			<h2 class="paperContent-title">试卷副标题</h2>
-			<p class="paperContent-info">考试范围：xxx；考试时间：100分钟；命题人：xxx</p>
-			<p class="paperContent-info">学校：____________姓名：____________班级：____________考号：____________</p>
-			<table class="paperContent-hd-score">
+	<div class="paperContent-hd clearfix">
+		<p class="paperContent-lable" ng-if="previewSideBar.showItems('secret').shown">{{previewSideBar.showItems('secret').content}}</p>
+		<div class="paperContent-paperHead">
+			<h2 class="paperContent-title" ng-if="previewSideBar.showItems('mainTitle').shown">{{previewSideBar.showItems('mainTitle').content}}</h2>
+			<h2 class="paperContent-title" ng-if="previewSideBar.showItems('subTitle').shown">{{previewSideBar.showItems('subTitle').content}}</h2>
+			<p class="paperContent-info" ng-if="previewSideBar.showItems('paperInfo').shown">{{previewSideBar.showItems('paperInfo').content}}</p>
+			<p class="paperContent-info" ng-if="previewSideBar.showItems('stuInput').shown">学校：____________姓名：____________班级：____________考号：____________</p>
+			<table class="paperContent-hd-score" ng-if="previewSideBar.showItems('points').shown">
 				<tr>
 					<th>题号</th>
 					<th>一</th>
@@ -51,28 +51,49 @@
 				</tr>
 			</table>
 		</div>
-		<p class="paperContent-tips">注意事项：</p>
-		<p class="paperContent-tips">1.答题前填好自己的姓名、班级、考号等信息</p>
-		<p class="paperContent-tips">2.请将答案正确填写在答题卡上</p>
+		<div  class="paperContent-tips" ng-if="previewSideBar.showItems('attention').shown">
+			<p>注意事项：</p>
+			<p>{{previewSideBar.showItems('attention').content}}</p>
+		</div>
 	</div>
 	<div class="paperContent-container">
 			<div class="paperContent-container-hd">
 				<div class="paperContent-container-operation">
 					<a><i class="icon addFile"></i>添加新题型</a>
-					<a ng-click="paperSetting()"><i class="icon setting"></i>设置</a>
+					<a ng-click="paperPreview.paperSetting()"><i class="icon setting"></i>设置</a>
 				</div>
 			</div>
-			<div class="paperContent-container-content">
-				<ol class="paperContent-question">
-					<div class="paperContent-item-wrapper" ng-mouseover="operate=true" ng-mouseleave="operate=false">
+			<div class="paperContent-questionType">
+				<div class="paperContent-questionType-hd">
+					<table class="paperContent-questionType-score left">
+						<tr>
+							<th>评卷人</th>
+							<th>得 分</th>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+					<span class="paperContent-questionType-title">一. 选择题{注释}</span>
+					<div class="paperContent-container-operation">
+						<a href="#"><i class="icon clean"></i>清空</a>
+						<a href="#"><i class="icon deleteWhite"></i>删除</a>
+						<a href="#"><i class="icon setting"></i>设置</a>
+						<a href="#"><i class="icon up"></i>上移</a>
+						<a href="#"><i class="icon down"></i>下移</a>
+					</div>
+				</div>
+				<ul class="paperContent-question">
+					<li class="paperContent-item-wrapper" ng-mouseover="operate=true" ng-mouseleave="operate=false">
 						<div class="paperContent-item-operation" ng-class="{hide: !operate}">
 							<a href="#"><i class="icon addFile"></i>详细</a>
-							<a ng-click="replaceQuestion()"><i class="icon replace"></i>替换</a>
+							<a ng-click="paperPreview.replaceQuestion()"><i class="icon replace"></i>替换</a>
 							<a href="#"><i class="icon deleteWhite"></i>删除</a>
 							<a href="#"><i class="icon up"></i>上移</a>
 							<a href="#"><i class="icon down"></i>下移</a>
 						</div>
-						<li class="paperContent-item">
+						<div class="paperContent-item">
 							<div class="paperContent-item-question">已知四个式子：
 								(1)
 								<div class="math-formula">
@@ -125,96 +146,9 @@
 									<span class="paperContent-answer-choice">D. (3)&lt;(2)&lt;(4)&lt;(1)</span>
 								</div>
 							</div>
-						</li>
-					</div>
-					
-					<div class="paperContent-item-wrapper">
-						<li class="paperContent-item">
-							<div class="paperContent-item-question">下列计算结果为正数的是（ &nbsp; ）。</div>
-							<div class="paperContent-item-answer clearfix">
-								<div class="paperContent-answer-wrapper left">
-									<div class="paperContent-answer-choice">A. 
-										<div class="math-formula">
-											-7<span class="topSub">6</span>×5
-										</div>
-									</div>
-									<div class="paperContent-answer-choice">B. 
-										<div class="math-formula">
-											(1-7)<span class="topSub">6</span>×5
-										</div>
-									</div>
-								</div>
-
-								<div class="paperContent-answer-wrapper left">
-									<div class="paperContent-answer-choice">C. 
-										<div class="math-formula">
-											1-7<span class="topSub">6</span>×5
-										</div>
-									</div>
-									<div class="paperContent-answer-choice">D. 
-										<div class="math-formula">
-											(1-7<span class="topSub">6</span>)×5
-										</div>
-									</div>
-								</div>
-							</div>
-						</li>
-					</div>
-					
-
-					<div class="paperContent-container-part">
-						<table class="paperContent-container-part-score left">
-							<tr>
-								<th>评卷人</th>
-								<th>得 分</th>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-							</tr>
-						</table>
-						<span class="paperContent-container-part-title">三. 填空题{注释}</span>
-						<div class="paperContent-container-operation">
-							<a href="#"><i class="icon clean"></i>清空</a>
-							<a href="#"><i class="icon deleteWhite"></i>删除</a>
-							<a href="#"><i class="icon setting"></i>设置</a>
-							<a href="#"><i class="icon up"></i>上移</a>
-							<a href="#"><i class="icon down"></i>下移</a>
 						</div>
-					</div>
-
-					<div class="paperContent-item-wrapper">
-						<li class="paperContent-item">
-							<div class="paperContent-item-question">下列计算结果为正数的是（ &nbsp; ）。</div>
-							<div class="paperContent-item-answer clearfix">
-								<div class="paperContent-answer-wrapper left">
-									<div class="paperContent-answer-choice">A. 
-										<div class="math-formula">
-											-7<span class="topSub">6</span>×5
-										</div>
-									</div>
-									<div class="paperContent-answer-choice">B. 
-										<div class="math-formula">
-											(1-7)<span class="topSub">6</span>×5
-										</div>
-									</div>
-								</div>
-								<div class="paperContent-answer-wrapper left">
-									<div class="paperContent-answer-choice">C. 
-										<div class="math-formula">
-											1-7<span class="topSub">6</span>×5
-										</div>
-									</div>
-									<div class="paperContent-answer-choice">D. 
-										<div class="math-formula">
-											(1-7<span class="topSub">6</span>)×5
-										</div>
-									</div>
-								</div>
-							</div>
-						</li>
-					</div>
-				</ol>
+					</li>
+				</ul>
 			</div>
 		</div>
 </div>

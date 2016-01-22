@@ -5,34 +5,34 @@
 		<table class="cart-backet">
 			<thead>
 				<tr>
-					<td class="cart-total" colspan="2">已选试题：()道</td>
-					<td class="cart-delete"><i class="icon cleanBlue"></i></td>
+					<td class="cart-total" colspan="2">已选试题：( {{backet.all.length}} )道</td>
+					<td class="cart-delete" ng-click="backet.question={choice:[],completion:[],solution:[]}"><i class="icon cleanBlue"></i></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class="cart-choosed">单选题：()道</td>
+					<td class="cart-choosed">单选题：( {{backet.question.choice.length}} )道</td>
 					<td class="cart-pecent">
-						<div class="cart-pecent-bg"></div>
-						<div class="cart-pecent-num">50%</div>
+						<div class="cart-pecent-bg" ng-style="{'width':backet.choicePecent=Math.round(backet.question.choice.length/backet.all.length*100||'0')+'%'}"></div>
+						<div class="cart-pecent-num">{{backet.choicePecent}}</div>
 					</td>
-					<td class="cart-delete"><i class="icon cleanBlue"></i></td>
+					<td class="cart-delete" ng-click="backet.question.choice=[]"><i class="icon cleanBlue"></i></td>
 				</tr>
 				<tr>
-					<td class="cart-choosed">单选题：()道</td>
+					<td class="cart-choosed">填空题：( {{backet.question.completion.length}} )道</td>
 					<td class="cart-pecent">
-						<div class="cart-pecent-bg"></div>
-						<div class="cart-pecent-num">50%</div>
+						<div class="cart-pecent-bg" ng-style="{'width':backet.completionPecent=Math.round(backet.question.completion.length/backet.all.length*100||'0')+'%'}"></div>
+						<div class="cart-pecent-num">{{backet.completionPecent}}</div>
 					</td>
-					<td class="cart-delete"><i class="icon cleanBlue"></i></td>
+					<td class="cart-delete" ng-click="backet.question.completion"><i class="icon cleanBlue"></i></td>
 				</tr>
 				<tr>
-					<td class="cart-choosed">单选题：()道</td>
+					<td class="cart-choosed">解答题：( {{backet.question.solution.length}} )道</td>
 					<td class="cart-pecent">
-						<div class="cart-pecent-bg"></div>
-						<div class="cart-pecent-num">50%</div>
+						<div class="cart-pecent-bg" ng-style="{'width':backet.solutionPecent=Math.round(backet.question.solution.length/backet.all.length*100||'0')+'%'}"></div>
+						<div class="cart-pecent-num">{{backet.solutionPecent}}</div>
 					</td>
-					<td class="cart-delete"><i class="icon cleanBlue"></i></td>
+					<td class="cart-delete" ng-click="backet.question.solution"><i class="icon cleanBlue"></i></td>
 				</tr>
 			</tbody>
 		</table>
@@ -43,5 +43,5 @@
 		</div>
 	</div>
 </div>
-<a href="#/paper-preview" class="cart-view right"><i class="icon viewWhite"></i>预览试卷</a>
+<a href="#/paper-preview/cart" class="cart-view right"><i class="icon viewWhite"></i>预览试卷</a>
 <a href="#/group-hub" class="cart-back right"><i class="icon back"></i>返回选题</a>

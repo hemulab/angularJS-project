@@ -1,17 +1,16 @@
-<ul class="multi-sortItemList">
-	<li class="multi-sortItem" ng-repeat="item in views.groupSortSet">
+<ul class="multi-sortItemList" ng-click="pagination.search()">
+	<li class="multi-sortItem" ng-repeat="item in multiSort.sortSet" ng-init="sortItemActive(true, item)">
 		<span class="multi-sortItem-title">{{item.title}}：</span>
-		<span class="multi-sortItem-choice" ng-repeat="choice in item.choices">{{choice}}</span>
+		<span class="multi-sortItem-choice" ng-repeat="choice in item.choices" ng-click="sortItemActive($first, item, choice)" ng-class="{active: multiSort.sortBy[item.name].indexOf(choice)>-1 ||  item.firstSortItemActive($first) || multiSort.emptyChoose($first) }">{{choice}}</span>
 	</li>
 </ul>
 <div class="sortBar">
 	<div class="sortBy left">
 		<span class="sortBy-title">筛选条件：</span>
-		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon closeLte"></i></div></span>
-		<span class="sortBy-choice">高一<div class="sortBy-close-wrapper"><i class="icon closeLte"></i></div></span>
+		<span class="sortBy-choice" ng-repeat="i in multiSort.sortByList">{{i}}<div class="sortBy-close-wrapper" ng-click="multiSort.deleteSortItem(i)"><i class="icon closeLte"></i></div></span>
 	</div>
 	<div class="sortBar-search right">
-		<input class="sortBar-search-input" placeholder="在结果中检索"/>
+		<input class="sortBar-search-input" placeholder="在结果中检索" ng-model="views.search" ng-change="pagination.search()"/>
 		<a class="sortBar-search-icon"><i class="icon search"></i></a>
 	</div>
 </div>

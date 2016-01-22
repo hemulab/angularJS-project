@@ -1,14 +1,10 @@
 <div class="sortBar">
 	<div class="sortBy left">
 		<span class="sortBy-title">筛选：</span>
-		<a href="#" class="sortByTime-choice">今天</a>
-		<a href="#" class="sortByTime-choice">昨天</a>
-		<a href="#" class="sortByTime-choice">本月</a>
-		<a href="#" class="sortByTime-choice">本周</a>
-		<a href="#" class="sortByTime-choice active">全部</a>
+		<span class="sortByTime-choice" ng-repeat="item in userView.sort" ng-click="pagination.search(views.limitTime = views.filterTime[item.id])" ng-class="{active: views.limitTime == views.filterTime[item.id]}">{{item.name}}</span>
 	</div>
 	<div class="sortBar-search right">
-		<input class="sortBar-search-input"/>
+		<input type="text" class="sortBar-search-input" ng-model="views.search" ng-change="pagination.search()"/>
 		<a class="sortBar-search-icon"><i class="icon search"></i></a>
 	</div>
 </div>

@@ -1,0 +1,24 @@
+<div class="cartBar"></div>
+<div class="user-hub-sortBar-wrapper" ng-include="views.sortBarPath"></div>
+<div class="hub-content record">
+	<div class="hub-content-total">共{{pagination.filteredItems.length}}条记录</div>
+	<table class="record-table">
+		<thead>
+			<tr class="record-table-header">
+				<th class="record-table-time">时间</th>
+				<th class="record-table-title">试卷标题</th>
+				<th class="record-table-operation">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="record-table-item" ng-repeat="item in pagination.pagedItems[pagination.currentPage] | orderBy:'-date' track by $index">
+				<td class="record-table-time">{{item.date}}</td>
+				<td class="record-table-title"><a href="/paper-view.html?{{item.id}}" class="record-paperTitle">{{item.title}}</a></td>
+				<td class="record-table-operation">
+					<a><i class="icon view"></i>预览</a>
+					<a><i class="icon download"></i>下载</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

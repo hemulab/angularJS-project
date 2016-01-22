@@ -1,0 +1,25 @@
+{
+	"questionInfo":{
+		"id":125,
+		"paperSourceId":2,
+		"points":[
+			"集合的概念"
+		],
+		"degree":2,
+		"year":2010,
+		"grade":"高一",
+		"type":"综合测试",
+		"questionType":"solution",
+		"province":"陕西"
+	},
+	"questionContent":{
+		"question":"下列计算结果为正数的是（ &nbsp; ）。",
+		"choices":[
+	        "<div class='math-formula'>-7<span class='topSub'>6</span>×5</div>",
+	        "<div class='math-formula'>(1-7)<span class='topSub'>6</span>×5</div>",
+	        "<div class='math-formula'>1-7<span class='topSub'>6</span>×5</div>",
+	        "<div class='math-formula'>(1-7<span class='topSub'>6</span>)×5</div>"
+		],
+		"answer":"<div class='math-formula'>(1-7)<span class='topSub'>6</span>×5</div>"
+	}
+}

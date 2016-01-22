@@ -3,13 +3,13 @@
 	<div class="courseBank junior">
 		<p>初中题库</p>
 		<div class="courseBank-list clearfix">
-			<a href="/system.html#junior-{{i.id}}" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+			<a ng-href="/system.html?junior-{{i.id}}#" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
 		</div>
 	</div>
 	<div class="courseBank senior">
 		<p>高中题库</p>
 		<div class="courseBank-list clearfix">
-			<a href="/system.html#senior-{{i.id}}" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
+			<a ng-href="/system.html?senior-{{i.id}}#" ng-repeat="i in views.courses"><i class="bank-icon {{i.icon}}"></i>{{i.course}}</a>
 		</div>
 	</div>
 </div>

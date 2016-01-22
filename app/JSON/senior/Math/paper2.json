@@ -1,0 +1,24 @@
+{
+	"paperInfo":{
+		"id":2,
+		"title":"2013年全国统一考试2",
+		"grade":"高一",
+		"type":"综合测试",
+		"province":"北京",
+		"year":"2016"
+	},
+	"paperContent":[
+		{
+			"question-id":123,
+			"number":1
+		},
+		{
+			"question-id":124,
+			"number":1
+		},
+		{
+			"question-id":125,
+			"number":1
+		}
+	]
+}

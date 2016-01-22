@@ -16,7 +16,7 @@
 		<div ng-include="'partials/header.html'"></div>
 		<div class="hd-tab">
 			<div class="hd-course-wrapper left" ng-init="ovh=true" ng-class="{overflowHidden:ovh}" ng-mouseleave="ovh=true">
-				<a class="system-course-active" ng-click="ovh=!ovh">{{views.nowCourse}}<i class="icon arrowDown"></i></a>
+				<a class="system-course-active" ng-click="ovh=!ovh">{{views.nowCourse.courseName}}<i class="icon arrowDown"></i></a>
 				<ul class="system-courseList junior" ng-click="views.changeNowCourse($event)">
 					<li class="system-courseList-item" ng-repeat="i in views.courses">初中{{i.course}}</li>
 				</ul>
@@ -26,7 +26,7 @@
 			</div>
 			<div class="hub-wrapper left">
 				<div class="hd-btn-wrapper" ng-repeat="h in views.hubs">
-					<a href="#/{{h.id}}-hub" class="hub {{h.id}}" ng-class=" {active: views.isActiveHub(h)}">{{h.name}}</a>
+					<a ng-href="#/{{h.id}}-hub" class="hub {{h.id}}" ng-class=" {active: views.isActiveHub(h)}">{{h.name}}</a>
 				</div>
 			</div>
 		</div>

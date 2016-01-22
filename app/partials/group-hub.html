@@ -1,35 +1,35 @@
 <div class="group-head">
 	<div class="group-head-tab left">
 		<div class="group-choose-wrapper left">
-			<a href="#/group-hub/manual" class="group-choose manual" ng-class="{active: !autoActive}"><i class="icon sideFile"></i>人工选题</a>
+			<a href="#/group-hub/manual" class="group-choose manual" ng-class="{active: !groupView.autoActive}"><i class="icon sideFile"></i>人工选题</a>
 		</div>
-		<a href="#/group-hub/auto" class="group-choose left auto" ng-class="{active: autoActive}"><i class="icon autoChoose"></i>智能选题</a>
+		<a href="#/group-hub/auto" class="group-choose left auto" ng-class="{active: groupView.autoActive}"><i class="icon autoChoose"></i>智能选题</a>
 	</div>
 	<div class="cartBar right" ng-include="'partials/cartBar.html'"></div>
 	<div class="group-head-bottom"></div>
 </div>
 <div class="group-body">
 	<div class="group-sideBar" id="group-sideBar">
-		<div class="sideBar-title" id="group-sideBar-title"><i class="bank-icon d2"></i>高中数学</div>
-		<ol class="sideBar-tree" ng-click="choosePoint($event)">
-			<li class="sideBar-root" ng-repeat="table in tables">
+		<div class="sideBar-title" id="group-sideBar-title"><i class="bank-icon {{views.nowCourse.courseIcon}}"></i>{{views.nowCourse.courseName}}</div>
+		<ol class="sideBar-tree" ng-click="groupView.choosePoint($event)">
+			<li class="sideBar-root" ng-repeat="table in groupView.tables">
 				<div class="sideBar-root-bg">
 					<i class="icon" 
 					   ng-class="table.closed?'treeClosed':'treeOpened'"  
 					   ng-click="table.closed =!table.closed"></i>
-					<span class="tree-title" ng-click="addToPoints(table)">{{table.title}}</span>
+					<span class="tree-title" ng-click="groupView.addToPoints(table)">{{table.title}}</span>
 				</div>
 				<ol class="sideBar-root-content" ng-class="{hide: table.closed}">
 					<li class="sideBar-node" ng-repeat="node in table.nodes">
 						<div class="sideBar-node-bg">
 							<i class="icon" ng-class="node.closed?'treeClosed':'treeOpened'" ng-click="node.closed =!node.closed"></i>
-							<span class="tree-title" ng-click="addToPoints(node)">{{node.title}}</span>
+							<span class="tree-title" ng-click="groupView.addToPoints(node)">{{node.title}}</span>
 						</div>
 						<ol class="node-list" ng-class="{hide: node.closed}">
 							<li class="node-title" ng-repeat="item in node.list">
 								<div class="sideBar-item-bg">
 									<i class="icon" ng-class="$last?'treeBranchEnd':'treeBranch'"></i>
-									<span class="tree-title" ng-click="addToPoints(item)">{{item.title}}</span>
+									<span class="tree-title" ng-click="groupView.addToPoints(item)">{{item.title}}</span>
 								</div>
 							</li>
 						</ol>
@@ -38,12 +38,12 @@
 			</li>
 		</ol>
 	</div>
-	<div class="group-container" id="group-container" ng-init="resize()">
+	<div class="group-container" id="group-container" ng-init="groupView.resize()">
 		<div class="group-resize-wrapper" id="group-resize-line">
 			<div class="group-resize" id="group-resize">
 				<i class="icon controlWidth"></i>
 			</div>
 		</div>
-		<div class="group-container-content" ng-include="hubContent"></div>
+		<div class="group-container-content" ng-include="groupView.hubContent"></div>
 	</div>
 </div>

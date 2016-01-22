@@ -1,0 +1,25 @@
+{
+	"questionInfo":{
+		"id":123,
+		"paperSourceId":1,
+		"points":[
+			"集合的概念","集合"
+		],
+		"degree":3,
+		"year":2010,
+		"grade":"高一",
+		"type":"综合测试",
+		"questionType":"choice",
+		"province":"陕西"
+	},
+	"questionContent":{
+		"question": "已知四个式子：(1)<div class='math-formula'>|-<div class='fraction'><div class='fraction-top'>3</div><div class='fraction-bottom'>5</div></div>-<div class='fraction'><div class='fraction-top'>4</div><div class='fraction-bottom'>7</div></div>|</div>；(2)<div class='math-formula'>|-<div class='fraction'><div class='fraction-top'>3</div><div class='fraction-bottom'>5</div></div>|-|-<div class='fraction'><div class='fraction-top'>4</div><div class='fraction-bottom'>7</div></div>|</div>；(3)<div class='math-formula'>-<div class='fraction'><div class='fraction-top'>3</div><div class='fraction-bottom'>5</div></div>-|-<div class='fraction'><div class='fraction-top'>4</div><div class='fraction-bottom'>7</div></div>|</div>；(4)<div class='math-formula'>-<div class='fraction'><div class='fraction-top'>3</div><div class='fraction-bottom'>5</div></div>-(-<div class='fraction'><div class='fraction-top'>4</div><div class='fraction-bottom'>7</div></div>)</div>，它们的值从小到大的顺序是（&nbsp;）。",
+		"choices":[
+			"(4)&lt;(3)&lt;(2)&lt;(1)",
+			"(3)&lt;(4)&lt;(2)&lt;(1)",
+			"(2)&lt;(4)&lt;(3)&lt;(1)",
+			"(3)&lt;(2)&lt;(4)&lt;(1)"
+		],
+		"answer":"(3)&lt;(4)&lt;(2)&lt;(1)"
+	}
+}

@@ -12,23 +12,24 @@
 	<tbody>
 		<tr class="group-auto-item">
 			<td>选择题：</td>
-			<td ng-repeat="item in choice"><span class="group-auto-td">{{item.previousNum}}</span><input ng-if="nowPointTitle" type="text" class="group-auto-setting" ng-model="item.num" maxlength="3"></td>
+			<td ng-repeat="item in point.choice.list">
+				<span class="group-auto-td">{{item.previousNum}}</span>
+				<input ng-if="groupView.nowPointTitle" type="number" class="group-auto-setting" ng-model="item.num" ng-value="item.previousNum" min="0" max="999">
+			</td>
 		</tr>
 		<tr class="group-auto-item">
 			<td>填空题：</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td ng-repeat="item in point.completion.list">
+				<span class="group-auto-td">{{item.previousNum}}</span>
+				<input ng-if="groupView.nowPointTitle" type="number" class="group-auto-setting" ng-model="item.num" ng-value="item.previousNum" min="0" max="999">
+			</td>
 		</tr>
 		<tr class="group-auto-item">
 			<td>解答题：</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td ng-repeat="item in point.solution.list">
+				<span class="group-auto-td">{{item.previousNum}}</span>
+				<input ng-if="groupView.nowPointTitle" type="number" class="group-auto-setting" ng-model="item.num" ng-value="item.previousNum" min="0" max="999">
+			</td>
 		</tr>
 	</tbody>
 </table>

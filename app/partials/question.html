@@ -1,44 +1,28 @@
-<div class="hub-content-total">共<span ng-bind="totalNum"></span>道</div>
+<div class="hub-content-total">共{{pagination.filteredItems.length}}道</div>
 <div class="hub-content-list">
-	<div class="hub-content-item">
+	<div class="hub-content-item" ng-repeat="item in pagination.pagedItems[pagination.currentPage] | orderBy:'-date' track by $index" ng-class="{hide: views.cancelQuestionCollection[$index]}">
 		<div class="hub-content-item-operation">
-			<a href="#"><i class="icon decBacket"></i>移出试题篮</a>
-			<a href="#"><i class="icon file"></i>详细</a>
-			<a href="#"><i class="icon decCollection"></i>取消收藏</a>
+			<span ng-click="views.toggleToBacket(item)"><i class="icon" ng-class="item.toBacket.icon"></i>{{item.toBacket.text}}</span>
+			<span><i class="icon file"></i>详细</span>
+			<span ng-click="views.cancelQuestionCollection[$index]=true"><i class="icon decCollection"></i>取消收藏</span>
 		</div>
 		<div class="hub-content-question">
-			<p><span class="question-info">【题号：<span class="question-info-id">23456</span>】 来源：</span>北京市翠微中学高二期末测试卷</p>
-			<p><span class="question-info">关联知识点：</span>集合的概念 | <span class="question-info">难度：</span><i class="icon degree2"></i> |<span class="question-info"> 年份：</span>2010 |</p>
+			<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】 来源：</span>{{item.source}}</p>
+			<p><span class="question-info">关联知识点：</span>{{item.points.join("，")}} | <span class="question-info">难度：</span><i class="icon degree{{item.degree}}"></i> |<span class="question-info"> 年份：</span>{{item.year}} |</p>
 		</div>
 		<div class="question-content">
-			<p class="question-title">已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数</p>
+			<p class="question-title" ng-bind-html="item.title|to_trusted"></p>
 			<div class="question-answer">
-				<span class="question-answer-choice">A. -1005</span>
-				<span class="question-answer-choice">B. -1006</span>
-				<span class="question-answer-choice">C. -1007</span>
-				<span class="question-answer-choice">D. -1008</span>
+				<div class="question-choice-wrapper">
+					<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+					<span class="question-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+				</div>
+				<div class="question-choice-wrapper">
+					<span class="question-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+					<span class="question-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="hub-content-item">
-		<div class="hub-content-item-operation">
-			<a href="#"><i class="icon addBacket"></i>移出试题篮</a>
-			<a href="#"><i class="icon file"></i>详细</a>
-			<a href="#"><i class="icon decCollection"></i>取消收藏</a>
-		</div>
-		<div class="hub-content-question">
-			<p><span class="question-info">【题号：<span class="question-info-id">23456</span>】 来源：</span>北京市翠微中学高二期末测试卷</p>
-			<p><span class="question-info">关联知识点：</span>集合的概念 | <span class="question-info">难度：</span><i class="icon degree2"></i> |<span class="question-info"> 年份：</span>2010 |</p>
-		</div>
-		<div class="question-content">
-			<p class="question-title">已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数已知整数</p>
-			<div class="question-answer">
-				<span class="question-answer-choice">A. -1005</span>
-				<span class="question-answer-choice">B. -1006</span>
-				<span class="question-answer-choice">C. -1007</span>
-				<span class="question-answer-choice">D. -1008</span>
-			</div>
-		</div>
-	</div>
-	<div class="pagenation"></div>
+	<div class="pagination" ng-include="'partials/pagination.html'"></div>
 </div>

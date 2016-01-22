@@ -1,17 +1,17 @@
 <div class="user-sideBar">
-	<div class="sideBar-sort" ng-class="{active: userHub.saved||userHub.downloaded}">
+	<div class="sideBar-sort" ng-class="{active: userView.userHub.saved||userView.userHub.downloaded}">
 		<div class="sideBar-sort-wrapper">
 			<div class="sideBar-sort-title"><i class="icon sideFile"></i>我的试卷</div>
 		</div>
-		<a href="#/user-hub/saved" class="sideBar-item saved" ng-class="{active: userHub.saved}">存档记录</a>
-		<a href="#/user-hub/downloaded" class="sideBar-item downloaded" ng-class="{active: userHub.downloaded}">下载记录</a>
+		<a href="#/user-hub/saved" class="sideBar-item saved" ng-class="{active: userView.userHub.saved}">存档记录</a>
+		<a href="#/user-hub/downloaded" class="sideBar-item downloaded" ng-class="{active: userView.userHub.downloaded}">下载记录</a>
 	</div>
-	<div class="sideBar-sort" ng-class="{active: userHub.question||userHub.paper}">
+	<div class="sideBar-sort" ng-class="{active: userView.userHub.question||userView.userHub.paper}">
 		<div class="sideBar-sort-wrapper">
 			<div class="sideBar-sort-title"><i class="icon sideCollection"></i>我的收藏夹</div>
 		</div>
-		<a href="#/user-hub/question" class="sideBar-item question" ng-class="{active: userHub.question}">试题</a>
-		<a href="#/user-hub/paper" class="sideBar-item paper" ng-class=" {active: userHub.paper}">试卷</a>
+		<a href="#/user-hub/question" class="sideBar-item question" ng-class="{active: userView.userHub.question}">试题</a>
+		<a href="#/user-hub/paper" class="sideBar-item paper" ng-class=" {active: userView.userHub.paper}">试卷</a>
 	</div>
 </div>
-<div class="user-container" ng-include="hubContent"></div>
+<div class="user-container" ng-include="userView.hubContent"></div>

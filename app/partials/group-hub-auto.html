@@ -1,23 +1,23 @@
 <div class="group-auto-head">
-	<span ng-if="!nowPointTitle"><i class="icon arrowLeft"></i>欢迎使用智能选题，请选择知识点！</span>
-	<span ng-if="nowPointTitle">知识点：</span><span class="group-auto-head-choosed">{{nowPointTitle}}</span>
+	<span ng-if="!groupView.nowPointTitle"><i class="icon arrowLeft"></i>欢迎使用智能选题，请选择知识点！</span>
+	<span ng-if="groupView.nowPointTitle">知识点：</span><span class="group-auto-head-choosed">{{groupView.nowPointTitle}}</span>
 </div>
 <div class="group-content">
 	<div class="group-auto-total">
-		<div class="group-total-item" ng-repeat="point in points" ng-init="point.modify=true">
-			<div class="group-total-item-wrapper" ng-init="point.choice=choice">
+		<div class="group-total-item" ng-repeat="point in groupView.points" ng-init="point.modify=true">
+			<div class="group-total-item-wrapper" ng-init="groupView.initSet($index)">
 				<span class="group-total-item-title">{{point.title}}：</span>
 				<span class="group-total-item-part">单选题：{{point.choice.sum}}</span>
-				<span class="group-total-item-part">填空题：{{point.fill}}</span>
-				<span class="group-total-item-part">解答题：{{point.solution}}</span>
+				<span class="group-total-item-part">填空题：{{point.completion.sum}}</span>
+				<span class="group-total-item-part">解答题：{{point.solution.sum}}</span>
 			</div>
 			<div class="group-total-item-operation">
-				<a ng-click="deletePoint($index)"><i class="icon deleteWhite"></i>删除</a>
+				<a ng-click="groupView.deletePoint($index)"><i class="icon deleteWhite"></i>删除</a>
 				<a ng-click="point.modify=false"><i class="icon modify"></i>修改</a>
 			</div>
 			<div ng-class="{hide: point.modify}">
 				<div ng-include="'partials/group-auto-table.html'"></div>
-				<div class="btn-wrapper group-total-item-save" ng-mousedown="saveNum($index)" ng-click="point.modify=true">
+				<div class="btn-wrapper group-total-item-save" ng-mousedown="groupView.saveNum($index)" ng-click="point.modify=true">
 					<a class="btn-content">保存</a>
 				</div>
 			</div>
