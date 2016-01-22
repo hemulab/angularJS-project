@@ -159,7 +159,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 				};
 			}
 		}();
-		$scope.views.jsonUrlRoot = '../JSON/'+$scope.views.nowCourse.grade+'/'+$scope.views.nowCourse.course+'/';
+		$scope.views.jsonUrlRoot = 'JSON/'+$scope.views.nowCourse.grade+'/'+$scope.views.nowCourse.course+'/';
 
 		//pagination
 		$scope.pagination = {
