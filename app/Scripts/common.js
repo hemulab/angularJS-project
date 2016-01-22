@@ -90,8 +90,8 @@ var systemApp = angular.module('system', ['ngRoute']).
 					targ = e.target || e.srcElement;
 				var targString = targ.innerHTML,
 					url = window.location.href,
-					grade = url.slice(url.lastIndexOf('?')+1, url.indexOf('-')),
-					course = url.slice(url.indexOf('-')+1, url.indexOf('#')),
+					grade = url.indexOf('junior')>-1?'junior':url.indexOf('senior')?'senior':'undefined';
+					course = url.slice(url.indexOf(grade)+grade.length, url.indexOf('#')),
 					grade_new, course_new;
 				if(targString.indexOf('初中')>-1) grade_new = 'junior';
 				else if(targString.indexOf('高中')>-1) grade_new = 'senior';
