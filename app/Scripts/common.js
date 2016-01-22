@@ -143,8 +143,8 @@ var systemApp = angular.module('system', ['ngRoute']).
 		 */
 		$scope.views.nowCourse = function() {
 			var url = window.location.href,
-				grade = url.slice(url.lastIndexOf('?')+1, url.indexOf('-')), gradeCN='',
-				course = url.slice(url.indexOf('-')+1, url.indexOf('#')), courseCN='',courseInfo;
+				grade = url.indexOf('junior')>-1?'junior':url.indexOf('senior')?'senior':'undefined', gradeCN='',
+				course = url.slice(url.indexOf(grade)+grade.length, url.indexOf('#')), courseCN='',courseInfo;
 			if(grade === 'junior') gradeCN='初中';
 			else if(grade === 'senior') gradeCN='高中';
 			courses.forEach(function(item, index) {
