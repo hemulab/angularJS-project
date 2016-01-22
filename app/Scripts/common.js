@@ -90,9 +90,10 @@ var systemApp = angular.module('system', ['ngRoute']).
 					targ = e.target || e.srcElement;
 				var targString = targ.innerHTML,
 					url = window.location.href,
-					grade = url.indexOf('junior')>-1?'junior':url.indexOf('senior')?'senior':'undefined';
-					course = url.slice(url.indexOf(grade)+grade.length, url.indexOf('#')),
+					grade = url.indexOf('junior')>-1?'junior':url.indexOf('senior')?'senior':'undefined',
+					course = url.slice(url.indexOf(grade)+grade.length+1, url.indexOf('#')),
 					grade_new, course_new;
+				
 				if(targString.indexOf('初中')>-1) grade_new = 'junior';
 				else if(targString.indexOf('高中')>-1) grade_new = 'senior';
 				courses.forEach(function(item, index) {
@@ -144,7 +145,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 		$scope.views.nowCourse = function() {
 			var url = window.location.href,
 				grade = url.indexOf('junior')>-1?'junior':url.indexOf('senior')?'senior':'undefined', gradeCN='',
-				course = url.slice(url.indexOf(grade)+grade.length, url.indexOf('#')), courseCN='',courseInfo;
+				course = url.slice(url.indexOf(grade)+grade.length+1, url.indexOf('#')), courseCN='',courseInfo;
 			if(grade === 'junior') gradeCN='初中';
 			else if(grade === 'senior') gradeCN='高中';
 			courses.forEach(function(item, index) {
