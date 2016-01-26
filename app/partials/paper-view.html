@@ -1,0 +1,115 @@
+<div class="paper-view">
+	<div class="header">
+		<h1 class="hd-title paper-view-title left">【卷号：{{paperView.paperInfo.id}}】{{paperView.paperInfo.title}}
+</h1>
+		<div class="right">
+			<div class="hd-btn-wrapper">
+				<a class="hd-btn paper-view-close" href="#/paper-hub">关闭</a>
+			</div>
+		</div>
+		<div class="header-bottom"></div>
+	</div>
+	<div class="container">
+		<div class="paper-view-hd">
+			<span class="paper-view-sort" ng-class="{active: paperView.shownPart==undefined || paperView.shownPart==='all'}" ng-click="paperView.shownPart = 'all'">全卷({{paperView.all().length}})</span>
+			<span class="paper-view-sort" ng-class="{active: paperView.shownPart==='choice'}" ng-click="paperView.shownPart ='choice'">选择题({{paperView.choice.length}})</span>
+			<span class="paper-view-sort" ng-class="{active: paperView.shownPart==='completion'}" ng-click="paperView.shownPart ='completion'">填空题({{paperView.completion.length}})</span>
+			<span class="paper-view-sort" ng-class="{active: paperView.shownPart==='solution'}" ng-click="paperView.shownPart ='solution'">问答题({{paperView.solution.length}})</span>
+			<div class="right" ng-include="'partials/cartBar.html'"></div>
+		</div>
+		<div class="paper-view-content">
+			<div class="hub-content-item" ng-repeat="item in paperView.all()" ng-class="{hide: paperView.shownPart!=='all'&&paperView.shownPart!==undefind}">
+				<div class="hub-content-item-operation">
+					<span ng-click="views.toggleToBacket(item)"><i class="icon decBacket"></i>{{item.toBacket.text}}</span>
+					<span><i class="icon file"></i>详细</span>
+					<span ng-click="views.toggleToCollection(item)"><i class="icon" ng-class="item.toCollection.icon"></i>{{item.toCollection.text}}</span>
+				</div>
+				<div class="hub-content-question">
+					<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】</span> <span class="question-info">关联知识点：</span>{{item.points.join('，')}} | <span class="question-info">难度：</span><i class="icon" ng-class="'degree'+item.degree"></i> |<span class="question-info"> 年份：</span>{{item.year}}</p>
+				</div>
+				<div class="question-content">
+					<p class="question-title" ng-bind-html="item.question|to_trusted"></p>
+					<div class="question-answer">
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+							<span class="question-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+						</div>
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+							<span class="question-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hub-content-item" ng-repeat="item in paperView.choice" ng-class="{hide: paperView.shownPart!=='choice'}">
+				<div class="hub-content-item-operation">
+					<span><i class="icon decBacket"></i>移出试题篮</span>
+					<span><i class="icon file"></i>详细</span>
+					<span><i class="icon decCollection"></i>取消收藏</span>
+				</div>
+				<div class="hub-content-question">
+					<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】</span> <span class="question-info">关联知识点：</span>{{item.points.join('，')}} | <span class="question-info">难度：</span><i class="icon" ng-class="'degree'+item.degree"></i> |<span class="question-info"> 年份：</span>{{item.year}}</p>
+				</div>
+				<div class="question-content">
+					<p class="question-title" ng-bind-html="item.question|to_trusted"></p>
+					<div class="question-answer">
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+							<span class="question-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+						</div>
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+							<span class="question-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hub-content-item" ng-repeat="item in paperView.completion" ng-class="{hide: paperView.shownPart!=='completion'}">
+				<div class="hub-content-item-operation">
+					<span><i class="icon decBacket"></i>移出试题篮</span>
+					<span><i class="icon file"></i>详细</span>
+					<span><i class="icon decCollection"></i>取消收藏</span>
+				</div>
+				<div class="hub-content-question">
+					<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】</span> <span class="question-info">关联知识点：</span>{{item.points.join('，')}} | <span class="question-info">难度：</span><i class="icon" ng-class="'degree'+item.degree"></i> |<span class="question-info"> 年份：</span>{{item.year}}</p>
+				</div>
+				<div class="question-content">
+					<p class="question-title" ng-bind-html="item.question|to_trusted"></p>
+					<div class="question-answer">
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+							<span class="question-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+						</div>
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+							<span class="question-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hub-content-item" ng-repeat="item in paperView.solution" ng-class="{hide: paperView.shownPart!=='solution'}">
+				<div class="hub-content-item-operation">
+					<span><i class="icon decBacket"></i>移出试题篮</span>
+					<span><i class="icon file"></i>详细</span>
+					<span><i class="icon decCollection"></i>取消收藏</span>
+				</div>
+				<div class="hub-content-question">
+					<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】</span> <span class="question-info">关联知识点：</span>{{item.points.join('，')}} | <span class="question-info">难度：</span><i class="icon" ng-class="'degree'+item.degree"></i> |<span class="question-info"> 年份：</span>{{item.year}}</p>
+				</div>
+				<div class="question-content">
+					<p class="question-title" ng-bind-html="item.question|to_trusted"></p>
+					<div class="question-answer">
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+							<span class="question-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+						</div>
+						<div class="question-choice-wrapper">
+							<span class="question-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+							<span class="question-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

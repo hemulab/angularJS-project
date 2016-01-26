@@ -1,7 +1,7 @@
 <ul class="multi-sortItemList" ng-click="pagination.search()">
 	<li class="multi-sortItem" ng-repeat="item in multiSort.sortSet" ng-init="sortItemActive(true, item)">
 		<span class="multi-sortItem-title">{{item.title}}：</span>
-		<span class="multi-sortItem-choice" ng-repeat="choice in item.choices" ng-click="sortItemActive($first, item, choice)" ng-class="{active: multiSort.sortBy[item.name].indexOf(choice)>-1 ||  item.firstSortItemActive($first) || multiSort.emptyChoose($first) }">{{choice}}</span>
+		<span class="multi-sortItem-choice" ng-repeat="choice in item.choices" ng-click="sortItemActive($first, item, choice)" ng-class="{active: multiSort.sortBy[item.name].indexOf(choice)>-1 ||  item.firstSortItemActive($first) || multiSort.emptyChoose(item, $first) }">{{choice}}</span>
 	</li>
 </ul>
 <div class="sortBar">

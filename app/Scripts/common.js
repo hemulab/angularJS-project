@@ -19,7 +19,7 @@ var groupSortSet = [
 	{title:'题型', name: 'questionType',choices:[
 		'全部','选择题','填空题','解答题'
 	]},
-	{title:'难度', name: 'degree',choices:[
+	{title:'难度', name: 'degreeCN',choices:[
 		'全部','容易','较易','一般','较难','困难'
 	]},
 	{title:'地区', name: 'province',choices:[
@@ -56,15 +56,6 @@ var indexApp = angular.module('index', []).
 		};
 		$scope.views = {
 			courses: courses
-		};
-	}]);
-
-var paperViewApp = angular.module('paperView', []).
-	controller('paperViewCtrl', ['$scope', function($scope){
-		$scope.winClose = function() {
-		    window.opener=null;
-		    window.close();
-		    //Scripts may close only the windows that were opened by it.
 		};
 	}]);
 
@@ -131,11 +122,26 @@ var systemApp = angular.module('system', ['ngRoute']).
 					updateBacketAll();
 				}
 				else{
-					item.toBacket = $scope.views.inBacket
+					item.toBacket = $scope.views.inBacket;
 					$scope.backet.question[item.questionType].splice($scope.backet.question[item.questionType].indexOf(item.id), 1);
 					updateBacketAll();
 				};
-				console.log($scope.backet.question[item.questionType], $scope.backet.all);
+			},
+			inCollection:{
+				icon:'addCollection',
+				text:'收藏'
+			},
+			outCollection:{
+				icon:'decCollection',
+				text:'取消收藏'
+			},
+			toggleToCollection:function(item) {
+				if(item.toCollection == $scope.views.inCollection){
+					item.toCollection = $scope.views.outCollection;
+				}
+				else{
+					item.toCollection = $scope.views.inCollection;
+				};
 			}
 		};
 		/**
@@ -165,7 +171,6 @@ var systemApp = angular.module('system', ['ngRoute']).
 		//pagination
 		$scope.pagination = {
 			filteredItems:[],
-			groupedItems: [],
 			itemsPerPage: 10,
 			pagedItems: [],
 			currentPage: 0,
@@ -226,9 +231,26 @@ var systemApp = angular.module('system', ['ngRoute']).
 
 		$scope.backet = {
 			question:{
-				choice:[123],
-				completion:[124],
-				solution:[125]
+				choice:[123,124,125],
+				completion:[123,124,125],
+				solution:[123,124,125]
+			},
+			cleanBacket: function(str) {
+				var cleanId = [];
+				if(str === 'all') {
+					cleanId = this[str];
+					this.question={choice:[],completion:[],solution:[]}
+				}
+				else{
+					cleanId = this.question[str];
+					this.question[str] = []
+				}
+				$scope.pagination.pagedItems.forEach(function(item, index) {
+					item.forEach(function(subItem, subIndex) {
+						if(cleanId.indexOf(subItem.id)>-1) subItem.toBacket = $scope.views.inBacket;
+					})
+				})
+				updateBacketAll();
 			}
 		};
 		function updateBacketAll(){
@@ -250,9 +272,9 @@ var systemApp = angular.module('system', ['ngRoute']).
 				updateSortByList();
 				$scope.pagination.search();
 			},
-			emptyChoose: function(first) {
+			emptyChoose: function(item, first) {
 				if(first) {
-					if(this.sortByList.length===0) return true;
+					if(this.sortBy[item.name].length===0) return true;
 				}
 				else return false;
 			}
@@ -269,6 +291,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 			}
 			return true;
 		};
+
 		function updateSortByList () {
 			$scope.multiSort.sortByList=[];
 			for(obj in $scope.multiSort.sortBy){
@@ -277,6 +300,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 				}
 			}
 		}
+
 		$scope.sortItemActive= function($first, item, choice) {
 			if($first){ 
 				$scope.multiSort.sortBy[item.name]=[];
@@ -292,6 +316,35 @@ var systemApp = angular.module('system', ['ngRoute']).
 					return false;
 				}
 			}
+		};
+
+		//需改进数据分类
+		$scope.views.ajaxContentQuestion = function(question, destination, callback) {
+			for( o1 in question){
+				if(question.hasOwnProperty(o1)){
+					for(o2 in question[o1]){
+						if(question[o1].hasOwnProperty(o2)){
+							if(o2 === 'questionType'){
+								switch(question[o1][o2]){
+									case 'completion':destination[o2] = groupSortSet[2].choices[2];break;
+									case 'solution':destination[o2] = groupSortSet[2].choices[3];break;
+									default:destination[o2] = groupSortSet[2].choices[1];break;
+								}
+							}
+							else if(o2 === 'degree'){
+								destination['degree'] = question[o1][o2];
+								destination['degreeCN'] = groupSortSet[3].choices[question[o1][o2]];
+							}
+							else{destination[o2] = question[o1][o2]}
+						}
+					}
+				}
+			}
+		};
+
+		$scope.collection = {
+			paper:[1, 2],
+			question:[123, 124, 125]
 		}
 	}]).
 	config(function($routeProvider) {
@@ -312,6 +365,10 @@ var systemApp = angular.module('system', ['ngRoute']).
 	  	when('/paper-preview/:paperId',{
 	  		templateUrl:'partials/paper-preview.html',
 	  		controller: 'paperPreviewCtrl'
+	  	}).
+	  	when('/paper-hub/:paperId',{
+	  		templateUrl:'partials/paper-view.html',
+	  		controller: 'paperViewCtrl'
 	  	}).
 	  	otherwise({redirectTo:'/user-hub/saved'});
 	}).
@@ -392,6 +449,8 @@ var systemApp = angular.module('system', ['ngRoute']).
 		function getPaper (obj, data) {
 			$scope.userView.hubContent = 'partials/user-hub-'+obj+'.html';
 			data[obj].forEach(function(item, index) {
+				if($scope.collection.paper.indexOf(item.id)>-1){item.toCollection = $scope.views.outCollection}
+				else {item.toCollection = $scope.views.inCollection};
 				$http.get($scope.views.jsonUrlRoot+'paper'+item.id+'.json').success(function(paper) {
 					item.title = paper.paperInfo.title;
 					if(index === data[obj].length-1){
@@ -404,15 +463,12 @@ var systemApp = angular.module('system', ['ngRoute']).
 		function getQuestion (obj, data) {
 			$scope.userView.hubContent = 'partials/user-hub-'+obj+'.html';
 			data[obj].forEach(function(item, index) {
-				if($scope.backet.all.indexOf(item.id)>-1) item.toBacket = $scope.views.outBacket;
+				if($scope.backet.all.indexOf(item.id)>-1) {item.toBacket = $scope.views.outBacket}
 				else item.toBacket = $scope.views.inBacket;
+				if($scope.collection.question.indexOf(item.id)>-1){item.toCollection = $scope.views.outCollection}
+				else {item.toCollection = $scope.views.inCollection};
 				$http.get($scope.views.jsonUrlRoot+'question'+item.id+'.json').success(function(question) {
-					item.points = question.questionInfo.points;
-					item.degree = question.questionInfo.degree;
-					item.year = question.questionInfo.year;
-					item.questionType = question.questionInfo.questionType;
-					item.title = question.questionContent.question;
-					item.choices = question.questionContent.choices;
+					$scope.views.ajaxContentQuestion(question, item);
 					$http.get($scope.views.jsonUrlRoot+'paper'+question.questionInfo.paperSourceId+'.json').success(function(paper) {
 						item.source = paper.paperInfo.title;
 						if(index === data[obj].length-1){
@@ -445,9 +501,11 @@ var systemApp = angular.module('system', ['ngRoute']).
 			return $sce.trustAsHtml(text);	//使angular解析HTML
 		}
 	}]).
-	controller('groupHubCtrl', ['$scope','$routeParams', '$http', function($scope, $routeParams, $http){
+	controller('groupHubCtrl', ['$scope','$routeParams', '$http', '$timeout', function($scope, $routeParams, $http, $timeout){
 		$scope.multiSort.sortSet = groupSortSet;
 		$scope.groupView = {};
+		$scope.pagination.items = [];
+		$scope.pagination.search();
 		var method = $routeParams.method, detail;
 		if(method === 'auto'){
 			$scope.groupView.hubContent = 'partials/group-hub-auto.html';
@@ -456,8 +514,8 @@ var systemApp = angular.module('system', ['ngRoute']).
 			$scope.groupView.hubContent = 'partials/group-hub-manual.html';
 			$scope.groupView.autoActive = false;
 		}
-		$http.get($scope.views.jsonUrlRoot+'points.json').success(function(dataSet) {
-			$scope.groupView.tables = dataSet.points;
+		$http.get($scope.views.jsonUrlRoot+'tables.json').success(function(dataSet) {
+			$scope.groupView.tables = dataSet.tables;
 		});
 		$scope.groupView.resize = function() {
 			var btn = document.getElementById('group-resize'),
@@ -497,22 +555,97 @@ var systemApp = angular.module('system', ['ngRoute']).
 			}
 		};
 		$scope.groupView.points =[];
+		$scope.groupView.pointsSum = {};
+		$scope.groupView.pointsSum.calculate = function(type) {
+			var sum = 0;
+			$scope.groupView.points.forEach(function(item, index) {
+				sum += item[type].sum;
+			})
+			return sum;
+		};
+		$scope.groupView.calculateSum = function() {
+			$scope.groupView.pointsSum.choice= $scope.groupView.pointsSum.calculate('choice');
+			$scope.groupView.pointsSum.completion= $scope.groupView.pointsSum.calculate('completion');
+			$scope.groupView.pointsSum.solution= $scope.groupView.pointsSum.calculate('solution');
+			$scope.groupView.pointsSum.sum= function() {
+				return this.choice+this.completion+this.solution
+			};
+		}
+		
+		$scope.groupView.getQuestionReplace = function(item) {
+			arr=[];
+			if(item.questionList.length){
+				item.questionList.forEach(function(el, index) {
+					arr[index] = {id: el};
+					if($scope.backet.all.indexOf(el)>-1) arr[index].toBacket = $scope.views.outBacket;
+					else arr[index].toBacket = $scope.views.inBacket;
+					if($scope.collection.question.indexOf(el)>-1){arr[index].toCollection = $scope.views.outCollection}
+					else {arr[index].toCollection = $scope.views.inCollection};
+					$http.get($scope.views.jsonUrlRoot+'question'+el+'.json').success(function(question) {
+						$scope.views.ajaxContentQuestion(question, arr[index]);
+						$http.get($scope.views.jsonUrlRoot+'paper'+question.questionInfo.paperSourceId+'.json').success(function(paper) {
+							arr[index].source = paper.paperInfo.title;
+						})
+					});
+				})
+			}
+			$scope.pagination.items = arr;
+			$scope.pagination.search();
+		};
+		$scope.groupView.getQuestionAdd = function(item, arr) {
+			var arrLen = arr.length;
+			if(item.questionList.length){
+				item.questionList.forEach(function(el, index) {
+					arr[arrLen+index] = {id: el};
+					if($scope.backet.all.indexOf(el)>-1) arr[arrLen+index].toBacket = $scope.views.outBacket;
+					else arr[arr.length+index].toBacket = $scope.views.inBacket;
+					if($scope.collection.question.indexOf(el)>-1){arr[arrLen+index].toCollection = $scope.views.outCollection}
+					else {arr[arr.length+index].toCollection = $scope.views.inCollection};
+					$http.get($scope.views.jsonUrlRoot+'question'+el+'.json').success(function(question) {
+						$scope.views.ajaxContentQuestion(question, arr[arrLen+index]);
+						$http.get($scope.views.jsonUrlRoot+'paper'+question.questionInfo.paperSourceId+'.json').success(function(paper) {
+							arr[arrLen+index].source = paper.paperInfo.title;
+						})
+					});
+				})
+			}
+			$scope.pagination.items = arr;
+			$scope.pagination.search();
+		};
 		$scope.groupView.addToPoints = function(i) {
+			var arr=[];
 			if(!i.nodes && !i.list){
+				$scope.groupView.getQuestionReplace(i);
+				
 				if($scope.groupView.points.indexOf(i)== -1) $scope.groupView.points.push(i);
 			}
 			else if(!i.nodes && i.list){
 				for (var j = 0, len = i.list.length; j < len; j++) {
+					(function(j){
+						$scope.groupView.getQuestionAdd(i.list[j], arr)
+					})(j);
+
 					if($scope.groupView.points.indexOf(i.list[j])== -1) $scope.groupView.points.push(i.list[j]);
 				};
 			}
 			else  if(i.nodes){
 				for (var j = 0, len1 = i.nodes.length; j < len1; j++) {
 					for (var k = 0, len2 = i.nodes[j].list.length; k < len2; k++) {
+						(function(k) {
+							$scope.groupView.getQuestionAdd(i.nodes[j].list[k], arr);
+						})(k);
 						if($scope.groupView.points.indexOf(i.nodes[j].list[k])== -1) $scope.groupView.points.push(i.nodes[j].list[k]);
 					};
 				};
 			}
+		};
+		$scope.groupView.pageAddToBacket = function() {
+            $timeout(function() {
+				var el = document.getElementsByClassName('addBacket');
+				for (var i = el.length - 1; i >= 0; i--) {
+					angular.element(el[i].parentNode).triggerHandler('click');
+				};
+            }, 0);
 		};
 		$scope.groupView.deletePoint = function(index) {
 			$scope.groupView.points.splice(index, 1);
@@ -533,27 +666,37 @@ var systemApp = angular.module('system', ['ngRoute']).
 			$scope.groupView.points[index].solution = new initSet();
 		};
 		$scope.groupView.saveNum = function(index) {
-			$scope.groupView.points[index].choice.sum=0;
-			$scope.groupView.points[index].choice.list.forEach(function(i) {
-				i.previousNum = i.num;
-				$scope.groupView.points[index].choice.sum+=parseInt(i.previousNum);
-			});
+			var type = ['choice', 'completion', 'solution'];
+			type.forEach(function(item) {
+				$scope.groupView.points[index][item].sum=0;
+				$scope.groupView.points[index][item].list.forEach(function(i) {
+					i.previousNum = i.num;
+					$scope.groupView.points[index][item].sum+=parseInt(i.previousNum);
+				});
+			})
 		};
 	}]).
 	controller('paperHubCtrl', ['$scope','$routeParams','$http', function($scope, $routeParams, $http){
 		$scope.multiSort.sortSet = paperSortSet;
 		$scope.paperView = {};
 		$http.get($scope.views.jsonUrlRoot+'paperAll.json').success(function(paper) {
+			paper.allPaper.forEach(function(item) {
+				if($scope.collection.question.indexOf(item.id)>-1){item.toCollection = $scope.views.outCollection}
+				else {item.toCollection = $scope.views.inCollection};
+			})
 			$scope.paperView.allPaper = paper.allPaper;
 			$scope.pagination.items = $scope.paperView.allPaper;
+			console.log(paper.allPaper)
 			$scope.pagination.search();
 		})
 	}]).
-	controller('paperPreviewCtrl', ['$scope', '$routeParams', function($scope, $routeParams){
+	controller('paperPreviewCtrl', ['$scope', '$routeParams', '$http', '$timeout', function($scope, $routeParams, $http, $timeout){
 		$scope.dialogShown = false;
-		$scope.dialogDisplay=function() {
-			$scope.dialogShown = !$scope.dialogShown
+		$scope.dialogDisplay=function(str) {
+			$scope.shownPart = str;
+			$scope.dialogShown = !$scope.dialogShown;
 		};
+		$scope.shownPart = '';
 		$scope.previewSideBar = {
 			items:{
 				title:[
@@ -670,54 +813,179 @@ var systemApp = angular.module('system', ['ngRoute']).
 				return thisItem;
 			}
 		}
+		
+		$scope.paperPreviewDialog = [
+			{
+				className:'savePaper',
+				title:'保存试卷',
+				url:''
+			},
+			{
+				className:'downloadPaper',
+				title:'下载Word试卷',
+				url:'partials/dialog-content-downloadPaper.html'
+			},
+			{
+				className:'downloadAnswerCard',
+				title:'下载答题卡',
+				url:'partials/dialog-content-downloadAnswerCard.html'
+			},
+			{
+				className:'paperAnalysis',
+				title:'试卷分析',
+				url:'partials/dialog-content-paperAnalysis.html'
+			},
+			{
+				className:'replaceQuestion',
+				title:'试题替换——准备替换当前第'+'题【ID:】',
+				url:'partials/dialog-content-replaceQuestion.html'
+			},
+			{
+				className:'paperSetting',
+				title:'试卷设置',
+				url:'partials/dialog-content-paperSetting.html'
+			}
+		];
 		$scope.paperPreview = {
-			paperId: $routeParams.paperId,
-			savePaper: function() {
-				$scope.dialog = {
-					className:'savePaper',
-					title:'保存试卷',
-					url:'partials/dialog-content.html'
+			question:{
+				choice:[],
+				completion:[],
+				solution:[]
+			},
+			title:[
+				{
+					name:'choice',
+					content:'选择题',
+					rank:0
+				},
+				{
+					name:'completion',
+					content:'填空题',
+					rank:1
+				},
+				{
+					name:'solution',
+					content:'解答题',
+					rank:2
+				}
+			],
+			moveUp: function(item, part) {
+				if(item.rank != 0){
+					var t = item.rank, prevItem, parentObj;
+					if(item.hasOwnProperty('choices')){
+						parentObj = $scope.paperPreview.question[part.name];
+					}else{
+						parentObj = $scope.paperPreview.title;
+					}
+					parentObj.forEach(function(i) {
+						if(i.rank === item.rank-1) {
+							return prevItem = i;
+						}
+					})
+					
+					item.rank -= 1;
+					prevItem.rank += 1;
 				}
 			},
-			downloadPaper: function() {
-				$scope.dialogDisplay();
-				$scope.dialog = {
-					className:'downloadPaper',
-					title:'下载Word试卷',
-					url:'partials/dialog-content-downloadPaper.html'
+			moveDown: function(item, part) {
+				if(item.rank != $scope.paperPreview.question[part.name].length-1){
+					var t = item.rank, prevItem, parentObj;
+					if(item.hasOwnProperty('choices')){
+						parentObj = $scope.paperPreview.question[part.name];
+					}else{
+						parentObj = $scope.paperPreview.title;
+					}
+					parentObj.forEach(function(i) {
+						if(i.rank === item.rank+1) {
+							return prevItem = i;
+						}
+					})
+					item.rank += 1;
+					prevItem.rank -= 1;
 				}
 			},
-			downloadAnswerCard: function() {
-				$scope.dialogDisplay();
-				$scope.dialog = {
-					className:'downloadAnswerCard',
-					title:'下载答题卡',
-					url:'partials/dialog-content-downloadAnswerCard.html'
-				}
+			order: function() {
+				var questionList = document.getElementsByClassName('paperContent-item-question');
+				
+				for (var i = questionList.length - 1; i >= 0; i--) {
+					var orderedItem = questionList[i].getElementsByClassName('paperContent-item-order');
+					if(orderedItem.length){
+						questionList[i].removeChild(orderedItem[0]);
+					}
+					var div = document.createElement('div');
+					div.className = 'paperContent-item-order';
+					div.innerHTML = i+1+'.';
+					questionList[i].insertBefore(div, questionList[i].childNodes[0]);
+				};
 			},
-			paperAnalysis: function() {
-				$scope.dialogDisplay();
-				$scope.dialog = {
-					className:'paperAnalysis',
-					title:'试卷分析',
-					url:'partials/dialog-content-paperAnalysis.html'
-				}
+			titleOrder: function() {
+				var typeList = document.getElementsByClassName('paperContent-questionType-title');
+				var listNum = ['一','二','三','四','五','六','七','八','九','十'];
+				for (var i = typeList.length - 1; i >= 0; i--) {
+					var orderedItem = typeList[i].getElementsByClassName('paperContent-questionType-order');
+					if(orderedItem.length){
+						typeList[i].removeChild(orderedItem[0]);
+					}
+					var div = document.createElement('span');
+					div.className = 'paperContent-questionType-order';
+					div.innerHTML = listNum[i]+'、';
+					typeList[i].insertBefore(div, typeList[i].childNodes[0]);
+				};
 			},
-			replaceQuestion: function() {
-				$scope.dialogDisplay();
-				$scope.dialog = {
-					className:'replaceQuestion',
-					title:'试题替换——准备替换当前第'+'题【ID:】',
-					url:'partials/dialog-content-replaceQuestion.html'
-				}
-			},
-			paperSetting: function() {
-				$scope.dialogDisplay();
-				$scope.dialog = {
-					className:'paperSetting',
-					title:'试卷设置',
-					url:'partials/dialog-content-paperSetting.html'
-				}
+			init: function() {
+				$timeout(function() {
+					angular.element(document.getElementsByClassName('paperContent-container-operation')[0]).triggerHandler('click');
+				},0)
 			}
 		}
+		$scope.paperPreview.init();
+		$scope.paperPreview.refreshContent = function() {
+			$scope.paperPreview.question={
+				choice:[],
+				completion:[],
+				solution:[]
+			};
+			for(obj in $scope.backet.question){
+				if($scope.backet.question.hasOwnProperty(obj)){
+					(function(obj) {
+						$scope.backet.question[obj].forEach(function(item, index) {
+							$http.get($scope.views.jsonUrlRoot+'question'+item+'.json').
+								  success(function(question) {
+								  	var newObj = {};
+								  	newObj.title = question.questionContent.question;
+								  	newObj.choices= question.questionContent.choices;
+								  	newObj.rank = index;
+								  	$scope.paperPreview.question[obj].push(newObj);
+								  })
+						})
+					})(obj)
+				}
+			}
+		};
+		$scope.paperPreview.refreshContent();
+	}]).controller('paperViewCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
+		$scope.paperView={
+			choice:[],
+			completion:[],
+			solution:[],
+			all: function() {
+				return this.choice.concat(this.completion).concat(this.solution);
+			}
+		};
+		$http.get($scope.views.jsonUrlRoot+'paper'+$routeParams.paperId+'.json').
+			  success(function(paper) {
+			  	$scope.paperView.paperInfo = paper.paperInfo;
+			  	paper.paperContent.forEach(function(item) {
+			  		$http.get($scope.views.jsonUrlRoot+'question'+item.questionId+'.json').success(function(question) {
+			  			var newObj = {};
+			  			$scope.views.ajaxContentQuestion(question, newObj);
+			  			newObj.questionType = question.questionInfo.questionType;
+						if($scope.backet.all.indexOf(newObj.id)>-1) {newObj.toBacket = $scope.views.outBacket}
+						else newObj.toBacket = $scope.views.inBacket;
+						if($scope.collection.question.indexOf(newObj.id)>-1){newObj.toCollection = $scope.views.outCollection}
+						else {newObj.toCollection = $scope.views.inCollection};
+			  			$scope.paperView[question.questionInfo.questionType].push(newObj);
+			  		});
+			  	});
+			  })
 	}]);

@@ -2,7 +2,7 @@
 	<span ng-if="!groupView.nowPointTitle"><i class="icon arrowLeft"></i>欢迎使用智能选题，请选择知识点！</span>
 	<span ng-if="groupView.nowPointTitle">知识点：</span><span class="group-auto-head-choosed">{{groupView.nowPointTitle}}</span>
 </div>
-<div class="group-content">
+<div class="group-content" ng-if="groupView.nowPointTitle">
 	<div class="group-auto-total">
 		<div class="group-total-item" ng-repeat="point in groupView.points" ng-init="point.modify=true">
 			<div class="group-total-item-wrapper" ng-init="groupView.initSet($index)">
@@ -12,15 +12,29 @@
 				<span class="group-total-item-part">解答题：{{point.solution.sum}}</span>
 			</div>
 			<div class="group-total-item-operation">
-				<a ng-click="groupView.deletePoint($index)"><i class="icon deleteWhite"></i>删除</a>
+				<a ng-click="groupView.calculateSum(groupView.deletePoint($index))"><i class="icon deleteWhite"></i>删除</a>
 				<a ng-click="point.modify=false"><i class="icon modify"></i>修改</a>
 			</div>
 			<div ng-class="{hide: point.modify}">
 				<div ng-include="'partials/group-auto-table.html'"></div>
 				<div class="btn-wrapper group-total-item-save" ng-mousedown="groupView.saveNum($index)" ng-click="point.modify=true">
-					<a class="btn-content">保存</a>
+					<a class="btn-content" ng-click="groupView.calculateSum()">保存</a>
 				</div>
 			</div>
 		</div>
+		<div class="group-total-sum">
+			<span class="group-total-item-title">总计：{{groupView.pointsSum.sum()||0}}</span>
+			<span class="group-total-item-part">单选题：{{groupView.pointsSum.choice||0}}</span>
+			<span class="group-total-item-part">填空题：{{groupView.pointsSum.completion||0}}</span>
+			<span class="group-total-item-part">解答题：{{groupView.pointsSum.solution||0}}</span>
+		</div>
+		<!-- <div class="group-total-btn">
+			<div class="btn-wrapper">
+				<div class="btn-content">继续设置</div>
+			</div>
+			<div class="btn-wrapper">
+				<div class="btn-content">确认设置</div>
+			</div>
+		</div> -->
 	</div>
 </div>

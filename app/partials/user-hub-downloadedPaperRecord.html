@@ -13,9 +13,9 @@
 		<tbody>
 			<tr class="record-table-item" ng-repeat="item in pagination.pagedItems[pagination.currentPage] | orderBy:'-date' track by $index">
 				<td class="record-table-time">{{item.date}}</td>
-				<td class="record-table-title"><a href="paper-view.html?{{item.id}}" class="record-paperTitle">{{item.title}}</a></td>
+				<td class="record-table-title"><a href="#/paper-hub/{{item.id}}" class="record-paperTitle">{{item.title}}</a></td>
 				<td class="record-table-operation">
-					<a><i class="icon view"></i>预览</a>
+					<a><i class="icon view"></i>浏览</a>
 					<a><i class="icon download"></i>下载</a>
 				</td>
 			</tr>

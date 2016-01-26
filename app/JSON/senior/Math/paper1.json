@@ -9,16 +9,16 @@
 	},
 	"paperContent":[
 		{
-			"question-id":123,
-			"number":1
+			"questionId":123,
+			"rank":1
 		},
 		{
-			"question-id":124,
-			"number":1
+			"questionId":124,
+			"rank":2
 		},
 		{
-			"question-id":125,
-			"number":1
+			"questionId":125,
+			"rank":3
 		}
 	]
 }

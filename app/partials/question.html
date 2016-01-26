@@ -4,14 +4,14 @@
 		<div class="hub-content-item-operation">
 			<span ng-click="views.toggleToBacket(item)"><i class="icon" ng-class="item.toBacket.icon"></i>{{item.toBacket.text}}</span>
 			<span><i class="icon file"></i>详细</span>
-			<span ng-click="views.cancelQuestionCollection[$index]=true"><i class="icon decCollection"></i>取消收藏</span>
+			<span ng-click="views.toggleToCollection(item)"><i class="icon" ng-class="item.toCollection.icon"></i>{{item.toCollection.text}}</span>
 		</div>
 		<div class="hub-content-question">
 			<p><span class="question-info">【题号：<span class="question-info-id">{{item.id}}</span>】 来源：</span>{{item.source}}</p>
-			<p><span class="question-info">关联知识点：</span>{{item.points.join("，")}} | <span class="question-info">难度：</span><i class="icon degree{{item.degree}}"></i> |<span class="question-info"> 年份：</span>{{item.year}} |</p>
+			<p><span class="question-info">关联知识点：</span>{{item.points.join("，")}} | <span class="question-info">难度：</span><i class="icon" ng-class="'degree'+item.degree"></i> |<span class="question-info"> 年份：</span>{{item.year}} |</p>
 		</div>
 		<div class="question-content">
-			<p class="question-title" ng-bind-html="item.title|to_trusted"></p>
+			<p class="question-title" ng-bind-html="item.question|to_trusted"></p>
 			<div class="question-answer">
 				<div class="question-choice-wrapper">
 					<span class="question-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
@@ -24,5 +24,6 @@
 			</div>
 		</div>
 	</div>
+	<div class="hub-content-tip" ng-if="pagination.pagedItems[pagination.currentPage].length>0?false:true">没有找到内容</div>
 	<div class="pagination" ng-include="'partials/pagination.html'"></div>
 </div>

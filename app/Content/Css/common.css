@@ -26,6 +26,7 @@ table{
 	position: fixed;
 	height: 66px;
 	width: 100%;
+	min-width: 960px;
 	background-color: #32425c;
 	z-index: 9;
 }
@@ -137,9 +138,7 @@ table{
 .mask{
 	height: 100%;
 	width: 100%;
-	position:fixed;
 	top:0;
-	z-index:8;
 	background-color: #fff;
 	opacity:0.6;
 	-moz-opacity:0.6;
@@ -148,9 +147,15 @@ table{
 .dialog{
 	position: absolute;
 	background-color: #fff;
-	z-index:9;
+	border: solid 1px #6584b3;
 }
 .dialog-wrapper{
+	z-index:9;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
 	display: none;
 }
 .dialog-title{

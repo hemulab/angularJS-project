@@ -3,11 +3,12 @@
 	<div class="hub-content-item" ng-repeat="item in pagination.pagedItems[pagination.currentPage] | orderBy:'-date' track by $index" ng-class="{hide: views.cancelPaperCollection[$index]}">
 		<div class="hub-content-item-operation">
 			<span><i class="icon viewWhite"></i>浏览</span>
-			<span ng-click="views.cancelPaperCollection[$index] = true"><i class="icon decCollection"></i>取消收藏</span>
+			<span ng-click="views.toggleToCollection(item)"><i class="icon" ng-class="item.toCollection.icon"></i>{{item.toCollection.text}}</span>
 		</div>
 		<div class="collection-paper">
-			<span class="paper-info">【卷号：<span class="paper-info-id">{{item.id}}</span>】 </span><a href="paper-view.html?{{item.id}}" class="collection-paper-title">{{item.title}}</a>
+			<span class="paper-info">【卷号：<span class="paper-info-id">{{item.id}}</span>】 </span><a href="#/paper-hub/{{item.id}}" class="collection-paper-title">{{item.title}}</a>
 		</div>
 	</div>
+	<div class="hub-content-tip" ng-if="pagination.pagedItems[pagination.currentPage].length>0?false:true">没有找到内容</div>
 	<div class="pagination" ng-include="'partials/pagination.html'"></div>
 </div>

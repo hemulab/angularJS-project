@@ -159,6 +159,7 @@
 	top: 66px;
 	height: 45px;
 	width: 100%;
+	min-width: 620px;
 	background-color: #f6f8f8;
 }
 .group-head .cartBar{
@@ -309,6 +310,12 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	margin-bottom: 1px;
 	border-bottom: dotted 1px #ccc;
 }
+.hub-content-tip{
+	line-height: 40px;
+	font-weight: bold;
+	text-align: center;
+	
+}
 .hub-content-item-operation,
 .group-total-item-operation,
 .paperContent-container-operation,
@@ -320,8 +327,8 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 }
 .hub-content-item-operation span,
 .group-total-item-operation a,
-.paperContent-container-operation a,
-.paperContent-item-operation a{
+.paperContent-container-operation span,
+.paperContent-item-operation span{
 	display: block;
 	float: left;
 	padding: 6px 8px;
@@ -332,8 +339,8 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 }
 .hub-content-item-operation span:hover,
 .group-total-item-operation a:hover,
-.paperContent-container-operation a:hover
-.paperContent-item-operation a:hover{
+.paperContent-container-operation span:hover,
+.paperContent-item-operation span:hover{
 	background-color: #4D648C;
 }
 .hub-content-question{
@@ -483,7 +490,6 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	padding: 0 0 0 46px;
 	font-family: "宋体";
 	font-size: 12px;
-	cursor: pointer;
 }
 .group-sideBar .choosed{
 	background-color: #EAF2FF;
@@ -654,9 +660,9 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	width: 20px;
 }
 .group-total-item-wrapper{
-	padding-left: 6px;
-	background-color: #f2f7ff;
+	padding: 0 0 0 6px;
 	line-height: 35px;
+	background-color: #f2f7ff;
 	font-weight: bold;
 }
 .group-total-item{
@@ -665,11 +671,29 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	border-bottom: 1px dotted #ccc;
 	overflow: hidden;
 }
+.group-total-sum{
+	padding: 0 0 0 6px;
+	line-height: 35px;
+	background-color: #f6f8f8;
+	font-weight: bold;
+}
+.group-total-btn{
+	padding: 10px 10px 15px;
+	text-align: right;
+}
+.group-total-btn .btn-wrapper{
+	margin: 0 0 0 12px;
+}
 .group-total-item-title{
+	display: inline-block;
+	min-width: 130px;
+}
+.group-total-item-title, .group-total-sum{
 	color: #315492;
 }
 .group-total-item-part{
-	margin-left: 54px;
+	display: inline-block;
+	min-width: 120px;
 }
 .group-total-item .gourp-auto-table{
 	margin-top: 1px;
@@ -709,6 +733,7 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 .paper-view-close{
 	padding: 0 14px;
     border-top: solid 5px #ce616e;
+    font-size: 16px;
 }
 .paper-view-close:hover, .paper-view-close:focus{
 	background-color: #ce616e;
@@ -721,9 +746,13 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	text-align: center;
 	color: #666;
 	font-size: 14px;
+	font-family: "微软雅黑";
+	cursor: pointer;
+	
 }
 .paper-view-sort.active{
 	background-color: #d4d4d4;
+	cursor: default;
 }
 .paper-view-content, .paper-hub-container{
 	padding-top: 113px;
@@ -760,6 +789,7 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	left: 0;
 	width: 100%;
 	background-color: #f6f8f8;
+	z-index: 1;
 }
 .preview-sideBar-title{
 	line-height: 27px;
@@ -891,7 +921,7 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	clear: both;
 }
 .paperContent-container{
-	margin: 5px 13px 0 0;
+	margin: 5px 13px 5px 0;
 	border: 1px solid #6583b4;
 }
 .paperContent-container .icon, .group-total-item-operation .icon{
@@ -904,7 +934,16 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	background-color: #f1f4fb;
 }
 .paperContent-item{
+	position: relative;
 	width: 600px;
+}
+.paperContent-item-order{
+	display: inline-block;
+	width: 20px;
+	text-align: right;
+}
+.paperContent-item-question{
+	text-indent: -20px;
 }
 .paperContent-item-wrapper{
 	position: relative;
@@ -963,7 +1002,7 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 .math-formula .fraction{
 	display: inline-block;
 	margin: 0 3px;
-	vertical-align: -7px;
+	vertical-align: -9px;
 	text-align: center;
 }
 .math-formula .fraction-top{
@@ -1035,31 +1074,25 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	text-align: right;
 }
 
-.downloadPaper, .downloadAnswerCard, .paperAnalysis{
-	position: absolute;
+.savePaper, .downloadPaper, .downloadAnswerCard, .paperAnalysis{
 	top: 150px;
 	left: 50%;
 	width: 748px;
 	height: 450px;
 	margin-left: -325px;
-	border: solid 1px #6584b3;
 }
 .paperSetting{
-	position: absolute;
 	left: 50%;
 	top: 45%;
 	margin: -250px 0 0 -325px;
 	width: 748px;
 	height: 493px;
-	border: solid 1px #6584b3;
 }
 .replaceQuestion{
-	position: absolute;
 	left: 50%;
 	top: 25%;
 	width: 748px;
 	margin: 0 0 0 -325px;
-	border: solid 1px #6584b3;
 }
 .paperAnalysis .dialog-content{
 	height: 417px;

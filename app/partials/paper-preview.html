@@ -34,20 +34,142 @@
 	<div class="preview-container-hd">
 		<div class="right" ng-include="'partials/cartBar.html'"></div>
 		<div class="btn-wrapper-group right">
-			<div class="btn-wrapper active" ng-click="paperPreview.savePaper()">
+			<div class="btn-wrapper active" ng-click="dialogDisplay('savePaper')">
 				<a class="btn-content">保存试卷</a>
 			</div>
-			<div class="btn-wrapper" ng-click="paperPreview.downloadPaper()">
+			<div class="btn-wrapper" ng-click="dialogDisplay('downloadPaper')">
 				<a class="btn-content">下载试卷</a>
 			</div>
-			<div class="btn-wrapper" ng-click="paperPreview.downloadAnswerCard()">
+			<div class="btn-wrapper" ng-click="dialogDisplay('downloadAnswerCard')">
 				<a class="btn-content">下载答题卡</a>
 			</div>
-			<div class="btn-wrapper" ng-click="paperPreview.paperAnalysis()">
+			<div class="btn-wrapper" ng-click="dialogDisplay('paperAnalysis')">
 				<a class="btn-content">试卷分析</a>
 			</div>
 		</div>
 	</div>
-	<div class="preview-content" ng-include="'partials/paperContent.html'"></div>
+	<div class="preview-content">
+		<div class="paperContent-sideBar" ng-if="previewSideBar.showItems('line').shown">
+			<div class="paperContent-gutter">
+				…………o…………外…………o…………装…………o…………订…………o…………线…………o…………
+			</div>
+			<div class="paperContent-sideBar-content">
+				<div class="paperContent-sideBar-content-wrapper">
+					<span class="paperContent-sideBar-title">学校：</span>_____________
+					<span class="paperContent-sideBar-title">姓名：</span>_____________
+					<span class="paperContent-sideBar-title">班级：</span>_____________
+					<span class="paperContent-sideBar-title">考号：</span>_____________
+				</div>
+			</div>
+			<div class="paperContent-gutter">
+				…………o…………内…………o…………装…………o…………订…………o…………线…………o…………
+			</div>
+		</div>
+		<div class="paperContent-content">
+			<div class="paperContent-hd clearfix">
+				<p class="paperContent-lable" ng-if="previewSideBar.showItems('secret').shown">{{previewSideBar.showItems('secret').content}}</p>
+				<div class="paperContent-paperHead">
+					<h2 class="paperContent-title" ng-if="previewSideBar.showItems('mainTitle').shown">{{previewSideBar.showItems('mainTitle').content}}</h2>
+					<h2 class="paperContent-title" ng-if="previewSideBar.showItems('subTitle').shown">{{previewSideBar.showItems('subTitle').content}}</h2>
+					<p class="paperContent-info" ng-if="previewSideBar.showItems('paperInfo').shown">{{previewSideBar.showItems('paperInfo').content}}</p>
+					<p class="paperContent-info" ng-if="previewSideBar.showItems('stuInput').shown">学校：____________姓名：____________班级：____________考号：____________</p>
+					<table class="paperContent-hd-score" ng-if="previewSideBar.showItems('points').shown">
+						<tr>
+							<th>题号</th>
+							<th>一</th>
+							<th>二</th>
+							<th>三</th>
+							<th>四</th>
+							<th>五</th>
+							<th>六</th>
+							<th>七</th>
+							<th>八</th>
+							<th>九</th>
+							<th>总分</th>
+						</tr>
+						<tr>
+							<td>得分</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+				<div  class="paperContent-tips" ng-if="previewSideBar.showItems('attention').shown">
+					<p>注意事项：</p>
+					<p>{{previewSideBar.showItems('attention').content}}</p>
+				</div>
+			</div>
+			<div class="paperContent-container">
+				<div class="paperContent-container-hd">
+					<div class="paperContent-container-operation" ng-click="paperPreview.titleOrder(paperPreview.order())" ng-init="paperPreview.titleOrder(paperPreview.order())">
+						<span><i class="icon addFile"></i>添加新题型</span>
+						<span ng-click="dialogDisplay('paperSetting')"><i class="icon setting"></i>设置</span>
+					</div>
+				</div>
+				<div class="paperContent-questionType" ng-repeat="part in paperPreview.title | orderBy:'rank'">
+					<div class="paperContent-questionType-hd">
+						<table class="paperContent-questionType-score left">
+							<tr>
+								<th>评卷人</th>
+								<th>得 分</th>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+						<span class="paperContent-questionType-title">{{part.content}}</span>
+						<div class="paperContent-container-operation" ng-click="paperPreview.titleOrder(paperPreview.order())">
+							<span ng-click="paperPreview.refreshContent(backet.cleanBacket(part.name))"><i class="icon clean"></i>清空</span>
+							<span><i class="icon deleteWhite"></i>删除</span>
+							<span><i class="icon setting"></i>设置</span>
+							<span ng-click="paperPreview.moveUp(part, part)"><i class="icon up"></i>上移</span>
+							<span ng-click="paperPreview.moveDown(part, part)"><i class="icon down"></i>下移</span>
+						</div>
+					</div>
+					<ul class="paperContent-question">
+						<li class="paperContent-item-wrapper" ng-mouseover="operate=true" ng-mouseleave="operate=false" ng-repeat="item in paperPreview.question[part.name] | orderBy:'rank'">
+							<div class="paperContent-item-operation" ng-class="{hide: !operate}" ng-click="paperPreview.order()">
+								<span><i class="icon addFile"></i>详细</span>
+								<span ng-click="dialogDisplay('replaceQuestion')"><i class="icon replace"></i>替换</span>
+								<span><i class="icon deleteWhite"></i>删除</span>
+								<span ng-click="paperPreview.moveUp(item, part)"><i class="icon up"></i>上移</span>
+								<span ng-click="paperPreview.moveDown(item, part)"><i class="icon down"></i>下移</span>
+							</div>
+							<div class="paperContent-item">
+								<div class="paperContent-item-question" ng-bind-html="item.title|to_trusted"></div>
+								<div class="paperContent-item-answer clearfix">
+									<div class="paperContent-answer-wrapper left">
+										<span class="paperContent-answer-choice">A. <span ng-bind-html="item.choices[0]|to_trusted"></span></span>
+										<span class="paperContent-answer-choice">B. <span ng-bind-html="item.choices[1]|to_trusted"></span></span>
+									</div>
+									<div class="paperContent-answer-wrapper left">
+										<span class="paperContent-answer-choice">C. <span ng-bind-html="item.choices[2]|to_trusted"></span></span>
+										<span class="paperContent-answer-choice">D. <span ng-bind-html="item.choices[3]|to_trusted"></span></span>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="dialog-wrapper" ng-class="{shown: dialogShown}">
+			<div class="mask" ng-click="dialogDisplay()"></div>
+			<div class="dialog {{item.className}}" ng-repeat="item in paperPreviewDialog" ng-class="{hide: shownPart!=item.className}">
+				<div class="dialog-title">{{item.title}}
+					<div class="closeWrapper" ng-click="dialogDisplay()"><i class="index-pic close"></i></div>
+				</div>
+				<div class="dialog-content" ng-include="item.url"></div>
+			</div>
+		</div>
+	</div>
 </div>
-<div ng-include="'partials/dialog.html'"></div>
