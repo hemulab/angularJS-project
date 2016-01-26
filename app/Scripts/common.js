@@ -16,7 +16,7 @@ var groupSortSet = [
 	{title:'类型', name: 'type',choices:[
 		'全部','同步练习','综合测试','高考模拟','高考真题','竞赛选拔'
 	]},
-	{title:'题型', name: 'questionType',choices:[
+	{title:'题型', name: 'questionTypeCN',choices:[
 		'全部','选择题','填空题','解答题'
 	]},
 	{title:'难度', name: 'degreeCN',choices:[
@@ -325,10 +325,11 @@ var systemApp = angular.module('system', ['ngRoute']).
 					for(o2 in question[o1]){
 						if(question[o1].hasOwnProperty(o2)){
 							if(o2 === 'questionType'){
+								destination[o2] = question[o1][o2];
 								switch(question[o1][o2]){
-									case 'completion':destination[o2] = groupSortSet[2].choices[2];break;
-									case 'solution':destination[o2] = groupSortSet[2].choices[3];break;
-									default:destination[o2] = groupSortSet[2].choices[1];break;
+									case 'completion':destination['questionTypeCN'] = groupSortSet[2].choices[2];break;
+									case 'solution':destination['questionTypeCN'] = groupSortSet[2].choices[3];break;
+									default:destination['questionTypeCN'] = groupSortSet[2].choices[1];break;
 								}
 							}
 							else if(o2 === 'degree'){
@@ -593,18 +594,18 @@ var systemApp = angular.module('system', ['ngRoute']).
 			$scope.pagination.search();
 		};
 		$scope.groupView.getQuestionAdd = function(item, arr) {
-			var arrLen = arr.length;
 			if(item.questionList.length){
 				item.questionList.forEach(function(el, index) {
-					arr[arrLen+index] = {id: el};
-					if($scope.backet.all.indexOf(el)>-1) arr[arrLen+index].toBacket = $scope.views.outBacket;
-					else arr[arr.length+index].toBacket = $scope.views.inBacket;
-					if($scope.collection.question.indexOf(el)>-1){arr[arrLen+index].toCollection = $scope.views.outCollection}
-					else {arr[arr.length+index].toCollection = $scope.views.inCollection};
+					var arrLen = arr.length;
+					arr[arrLen] = {id: el};
+					if($scope.backet.all.indexOf(el)>-1) arr[arrLen].toBacket = $scope.views.outBacket;
+					else arr[arrLen].toBacket = $scope.views.inBacket;
+					if($scope.collection.question.indexOf(el)>-1){arr[arrLen].toCollection = $scope.views.outCollection}
+					else {arr[arrLen].toCollection = $scope.views.inCollection};
 					$http.get($scope.views.jsonUrlRoot+'question'+el+'.json').success(function(question) {
-						$scope.views.ajaxContentQuestion(question, arr[arrLen+index]);
+						$scope.views.ajaxContentQuestion(question, arr[arrLen]);
 						$http.get($scope.views.jsonUrlRoot+'paper'+question.questionInfo.paperSourceId+'.json').success(function(paper) {
-							arr[arrLen+index].source = paper.paperInfo.title;
+							arr[arrLen].source = paper.paperInfo.title;
 						})
 					});
 				})
