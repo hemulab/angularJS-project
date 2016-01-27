@@ -935,7 +935,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 					$scope.paperPreview.title.forEach(function(item) {
 						$scope.paperPreview.refreshSide(item);
 					})
-				},0)
+				},100)
 			},
 			deleteType: function(type) {
 				this.title.forEach(function(item, index) {
