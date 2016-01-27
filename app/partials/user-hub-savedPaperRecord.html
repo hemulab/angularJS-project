@@ -13,10 +13,10 @@
 		<tbody>
 			<tr class="record-table-item" ng-repeat="item in pagination.pagedItems[pagination.currentPage] | orderBy:'-date' track by $index" ng-class="{hide: userView.delete[$index]}">
 				<td class="record-table-time">{{item.date}}</td>
-				<td class="record-table-title"><a ng-href="#/paper-hub/{{item.id}}" class="record-paperTitle">{{item.title}}</a></td>
+				<td class="record-table-title"><a ng-href="#/paper-hub/{{item.id}}" target="_blank" class="record-paperTitle">{{item.title}}</a></td>
 				<td class="record-table-operation">
-					<span><i class="icon view"></i>浏览</span>
-					<span><i class="icon download"></i>下载</span>
+					<a ng-href="#/paper-hub/{{item.id}}" target="_blank"><i class="icon view"></i>浏览</a>
+					<span ng-click="dialogDisplay()"><i class="icon download"></i>下载</span>
 					<span ng-click="userView.delete[$index]=true"><i class="icon delete"></i>删除</span>
 				</td>
 			</tr>

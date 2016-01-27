@@ -1,0 +1,31 @@
+{
+	"tables":[
+		{
+			"title":"集合与常用逻辑用语",
+			"nodes":[
+				{
+					"title":"集合的概念",
+					"list":[
+						{
+							"title":"命题及关系",
+							"id":1,
+							"questionList":[123,124]
+						},
+						{
+							"title":"充分条件与必要条件",
+							"id":2,
+							"questionList":[]
+						},
+						{
+							"title":"简单的逻辑连接词",
+							"id":3,
+							"questionList":[125]
+						}
+					],
+					"id":1
+				}
+			],
+			"id":1
+		}
+	]
+}

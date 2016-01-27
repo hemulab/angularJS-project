@@ -1,9 +1,9 @@
 <div class="preview-sideBar">
 	<div class="preview-sideBar-tab clearfix">
-		<span class="preview-tab-item active">默认</span>
-		<span class="preview-tab-item">标准</span>
-		<span class="preview-tab-item">测验</span>
-		<span class="preview-tab-item">作业</span>
+		<span class="preview-tab-item" ng-class="{active: paperPreview.previewTab == '默认'|| paperPreview.previewTab == undefined}" ng-click="paperPreview.previewTab = '默认'">默认</span>
+		<span class="preview-tab-item" ng-class="{active: paperPreview.previewTab == '标准'}" ng-click="paperPreview.previewTab = '标准'">标准</span>
+		<span class="preview-tab-item" ng-class="{active: paperPreview.previewTab == '测验'}" ng-click="paperPreview.previewTab = '测验'">测验</span>
+		<span class="preview-tab-item" ng-class="{active: paperPreview.previewTab == '作业'}" ng-click="paperPreview.previewTab = '作业'">作业</span>
 	</div>
 	<div class="preview-sideBar-hd">
 		<div class="preview-sideBar-title"><i class="icon paperHead"></i>卷头</div>
@@ -17,12 +17,12 @@
 		<div class="preview-sideBar-title"><i class="icon paperBody"></i>卷体</div>
 		<ul class="preview-sideBar-body-list">
 			<li class="preview-sideBar-body-item" ng-repeat="page in previewSideBar.items.body">
-				<label><input type="checkbox" checked="checked"><i class="icon paperContent"></i><span>{{page.title}}</span></label>
+				<label><input type="checkbox" ng-model="page.shown" ng-change="paperPreview.init(paperPreview.checkSubItem(page))"><i class="icon paperContent"></i><span>{{page.title}}</span></label>
 				<ul class="preview-sideBar-body-item-sub">
 					<li ng-repeat="i in page.item">
-						<label><input type="checkbox" checked="checked"><i class="icon paperContent"></i><span>{{i.title}}</span></label>
+						<label><input type="checkbox" ng-model="paperPreview.questionTypeConnection(i).shown" ng-change="paperPreview.init()"><i class="icon paperContent"></i><span>{{i.title}}</span></label>
 						<ol class="preview-sideBar-body-list-sub">
-							<li ng-repeat="item in i.content"><span class="preview-siderBar-end-item">{{item.title}}</span></li>
+							<li ng-repeat="item in i.content | orderBy:'rank'"><span class="preview-siderBar-end-item">{{item.id}}</span></li>
 						</ol>
 					</li>
 				</ul>
@@ -109,12 +109,12 @@
 			</div>
 			<div class="paperContent-container">
 				<div class="paperContent-container-hd">
-					<div class="paperContent-container-operation" ng-click="paperPreview.titleOrder(paperPreview.order())" ng-init="paperPreview.titleOrder(paperPreview.order())">
+					<div class="paperContent-container-operation" ng-click="paperPreview.titleOrder(paperPreview.order())">
 						<span><i class="icon addFile"></i>添加新题型</span>
 						<span ng-click="dialogDisplay('paperSetting')"><i class="icon setting"></i>设置</span>
 					</div>
 				</div>
-				<div class="paperContent-questionType" ng-repeat="part in paperPreview.title | orderBy:'rank'">
+				<div class="paperContent-questionType" ng-repeat="part in paperPreview.title | orderBy:'rank'" ng-if="part.shown">
 					<div class="paperContent-questionType-hd">
 						<table class="paperContent-questionType-score left">
 							<tr>
@@ -129,7 +129,7 @@
 						<span class="paperContent-questionType-title">{{part.content}}</span>
 						<div class="paperContent-container-operation" ng-click="paperPreview.titleOrder(paperPreview.order())">
 							<span ng-click="paperPreview.refreshContent(backet.cleanBacket(part.name))"><i class="icon clean"></i>清空</span>
-							<span><i class="icon deleteWhite"></i>删除</span>
+							<span ng-click="paperPreview.deleteType(part)"><i class="icon deleteWhite"></i>删除</span>
 							<span><i class="icon setting"></i>设置</span>
 							<span ng-click="paperPreview.moveUp(part, part)"><i class="icon up"></i>上移</span>
 							<span ng-click="paperPreview.moveDown(part, part)"><i class="icon down"></i>下移</span>
@@ -140,7 +140,7 @@
 							<div class="paperContent-item-operation" ng-class="{hide: !operate}" ng-click="paperPreview.order()">
 								<span><i class="icon addFile"></i>详细</span>
 								<span ng-click="dialogDisplay('replaceQuestion')"><i class="icon replace"></i>替换</span>
-								<span><i class="icon deleteWhite"></i>删除</span>
+								<span ng-click="paperPreview.deleteItem($index, part)"><i class="icon deleteWhite"></i>删除</span>
 								<span ng-click="paperPreview.moveUp(item, part)"><i class="icon up"></i>上移</span>
 								<span ng-click="paperPreview.moveDown(item, part)"><i class="icon down"></i>下移</span>
 							</div>

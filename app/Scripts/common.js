@@ -119,12 +119,12 @@ var systemApp = angular.module('system', ['ngRoute']).
 				if(item.toBacket == $scope.views.inBacket){
 					item.toBacket = $scope.views.outBacket;
 					$scope.backet.question[item.questionType].push(item.id);
-					updateBacketAll();
+					$scope.backet.updateBacketAll();
 				}
 				else{
 					item.toBacket = $scope.views.inBacket;
 					$scope.backet.question[item.questionType].splice($scope.backet.question[item.questionType].indexOf(item.id), 1);
-					updateBacketAll();
+					$scope.backet.updateBacketAll();
 				};
 			},
 			inCollection:{
@@ -250,13 +250,13 @@ var systemApp = angular.module('system', ['ngRoute']).
 						if(cleanId.indexOf(subItem.id)>-1) subItem.toBacket = $scope.views.inBacket;
 					})
 				})
-				updateBacketAll();
+				$scope.backet.updateBacketAll();
 			}
 		};
-		function updateBacketAll(){
+		$scope.backet.updateBacketAll = function(){
 			$scope.backet.all = $scope.backet.question.choice.concat($scope.backet.question.completion).concat($scope.backet.question.solution);
 		};
-		updateBacketAll();
+		$scope.backet.updateBacketAll();
 
 		$scope.multiSort = {
 			sortSet:[],
@@ -374,6 +374,15 @@ var systemApp = angular.module('system', ['ngRoute']).
 	  	otherwise({redirectTo:'/user-hub/saved'});
 	}).
 	controller('userHubCtrl', ['$scope','$routeParams','$http', function($scope, $routeParams, $http){
+		$scope.dialogShown = false;
+		$scope.dialogDisplay = function() {
+			$scope.dialogShown = !$scope.dialogShown;
+		};
+		$scope.dialog = {
+			className:'downloadPaper',
+			title:'下载Word试卷',
+			url:'partials/dialog-content-downloadPaper.html'
+		};
 		var name = $routeParams.name;
 		var set = [
 			{name:'saved', data:''},
@@ -763,46 +772,28 @@ var systemApp = angular.module('system', ['ngRoute']).
 						title:"第Ｉ卷 (选择题)",
 						item:[
 							{
-								title:"一、单选题",
-								content:[
-									{
-										title:"2012-2013",
-										id:"123"
-									},
-									{
-										title:"2012-2013",
-										id:"124"
-									},
-									{
-										title:"2012-2013",
-										id:"125"
-									}
-								]
+								title:"选择题",
+								name:'choice',
+								content:[]
 							}
-						]
+						],
+						shown: true
 					},
 					{
 						title:"第ＩＩ卷 (非选择题)",
 						item:[
 							{
-								title:"二、填空题",
-								content:[
-									{
-										title:"2012-2013",
-										id:"125"
-									}
-								]
+								title:"填空题",
+								name:'completion',
+								content:[]
 							},
 							{
-								title:"三、解答题",
-								content:[
-									{
-										title:"2012-2013",
-										id:"125"
-									}
-								]
+								title:"解答题",
+								name:'solution',
+								content:[]
 							}
-						]
+						],
+						shown: true
 					}
 				]
 			},
@@ -857,17 +848,20 @@ var systemApp = angular.module('system', ['ngRoute']).
 				{
 					name:'choice',
 					content:'选择题',
-					rank:0
+					rank:0,
+					shown:true
 				},
 				{
 					name:'completion',
 					content:'填空题',
-					rank:1
+					rank:1,
+					shown:true
 				},
 				{
 					name:'solution',
 					content:'解答题',
-					rank:2
+					rank:2,
+					shown:true
 				}
 			],
 			moveUp: function(item, part) {
@@ -886,6 +880,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 					
 					item.rank -= 1;
 					prevItem.rank += 1;
+					this.refreshSide(part);
 				}
 			},
 			moveDown: function(item, part) {
@@ -903,6 +898,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 					})
 					item.rank += 1;
 					prevItem.rank -= 1;
+					this.refreshSide(part);
 				}
 			},
 			order: function() {
@@ -917,7 +913,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 					div.className = 'paperContent-item-order';
 					div.innerHTML = i+1+'.';
 					questionList[i].insertBefore(div, questionList[i].childNodes[0]);
-				};
+				}
 			},
 			titleOrder: function() {
 				var typeList = document.getElementsByClassName('paperContent-questionType-title');
@@ -936,16 +932,51 @@ var systemApp = angular.module('system', ['ngRoute']).
 			init: function() {
 				$timeout(function() {
 					angular.element(document.getElementsByClassName('paperContent-container-operation')[0]).triggerHandler('click');
+					$scope.paperPreview.title.forEach(function(item) {
+						$scope.paperPreview.refreshSide(item);
+					})
 				},0)
+			},
+			deleteType: function(type) {
+				this.title.forEach(function(item, index) {
+					if(item.name===type.name){
+						item.shown = false;
+					}
+				})
+			},
+			deleteItem: function(index, part) {
+				$scope.backet.question[part.name].splice(index, 1);
+				$scope.backet.updateBacketAll();
+				$scope.paperPreview.refreshContent();
+			},
+			refreshSide: function(part) {
+				$scope.previewSideBar.items.body.forEach(function(i) {
+			  		i.item.forEach(function(j) {
+			  			if(j.name === part.name) j.content=$scope.paperPreview.question[part.name]
+			  		})
+			  	})
+			},
+			questionTypeConnection: function(i) {
+				var target;
+				this.title.forEach(function(item) {
+					if(i.name===item.name) return target = item
+				});
+				return target;
+			},
+			checkSubItem: function(page) {
+				page.item.forEach(function(item) {
+					$scope.paperPreview.questionTypeConnection(item).shown = page.shown;
+				})
 			}
 		}
-		$scope.paperPreview.init();
+		$scope.paperPreview.init();//添加序号
 		$scope.paperPreview.refreshContent = function() {
 			$scope.paperPreview.question={
 				choice:[],
 				completion:[],
 				solution:[]
 			};
+			//默认使用试题篮内容。
 			for(obj in $scope.backet.question){
 				if($scope.backet.question.hasOwnProperty(obj)){
 					(function(obj) {
@@ -953,6 +984,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 							$http.get($scope.views.jsonUrlRoot+'question'+item+'.json').
 								  success(function(question) {
 								  	var newObj = {};
+								  	newObj.id = item;
 								  	newObj.title = question.questionContent.question;
 								  	newObj.choices= question.questionContent.choices;
 								  	newObj.rank = index;
@@ -962,6 +994,7 @@ var systemApp = angular.module('system', ['ngRoute']).
 					})(obj)
 				}
 			}
+			$scope.paperPreview.init();
 		};
 		$scope.paperPreview.refreshContent();
 	}]).controller('paperViewCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){

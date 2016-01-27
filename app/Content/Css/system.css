@@ -291,7 +291,8 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 .record-table-operation{
 	width: 30%;
 }
-.record-table-operation span{
+.record-table-operation span,
+.record-table-operation a{
 	margin: 0 5px;
 	color: #6583b4;
 	cursor: pointer;
@@ -326,8 +327,10 @@ span,table,.group-auto-setting, .sortItemList, .sortBar,.hub-content, .hub-conte
 	background-color: #6583b4;
 }
 .hub-content-item-operation span,
+.hub-content-item-operation a,
 .group-total-item-operation a,
 .paperContent-container-operation span,
+.paperContent-container-operation a,
 .paperContent-item-operation span{
 	display: block;
 	float: left;
